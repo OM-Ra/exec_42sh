@@ -25,15 +25,21 @@ static int	run_fork(t_pars_list **list)
 	}
 	else if (pid > 0)
 		waitpid(pid, &(*list)->status, WUNTRACED);
+	exec_status = (*list)->status;
 	return ((*list)->status);
 }
 // определяет характер выполнения кода
 int		check_run(t_pars_list **list)
 {
 	int status;
-	// дописсать вариант запуска внутренних команд
+
 	if ((*list)->flag_pipe)
+	{
 		status = run_pipe(-1, list);
+		exec_status = (*list)->status;
+	}
+	// else if ()						// дописсать вариант запуска внутренних команд
+	//
 	else
 		status = run_fork(list);
 	return (status);

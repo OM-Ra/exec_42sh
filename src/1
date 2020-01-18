@@ -1,0 +1,12 @@
+итого 40
+-rw-r--r-- 1 ra ra    0 янв 18 16:28 1
+-rw-r--r-- 1 ra ra 2900 янв 18 13:18 check_choice.c
+-rw-r--r-- 1 ra ra 1588 янв 18 13:22 check_run.c
+-rw-r--r-- 1 ra ra 2442 янв 18 16:12 create_file.c
+-rw-r--r-- 1 ra ra 1470 янв 18 16:23 dup_fd_and_close.c
+-rw-r--r-- 1 ra ra   78 дек 10 04:26 main.c
+-rw-r--r-- 1 ra ra  414 янв 18 16:10 new_or_openfile.c
+-rw-r--r-- 1 ra ra   16 янв 18 15:13 redirect_stream.c
+-rw-r--r-- 1 ra ra 2697 янв 18 12:13 run_ampersant.c
+-rw-r--r-- 1 ra ra 1506 янв 18 12:34 run_exec.c
+-rw-r--r-- 1 ra ra 2555 янв 18 13:25 run_pipe.c

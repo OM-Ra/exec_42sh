@@ -17,7 +17,10 @@ static void	end_recurs(int fd_stdin, t_pars_list **list, int pfd[2])
 	close(pfd[0]);
 	close(pfd[1]);
 	create_file(*list);							// если вывод будет в файл
-	run_exec(fd_stdin, *list);
+	// if ()									// запуск внутренних команд
+	//
+	// else		
+	run_exec(fd_stdin, *list);					// запуск системных команд
 }
 // функция с родительским кодом
 static int	go_recurs(int pfd[2], t_pars_list **list)
@@ -50,7 +53,10 @@ int			run_pipe(int fd_stdin, t_pars_list **list)
 	if (!pid)														// процесс потомок
 	{
 		dup_fd_and_close(pfd[1], STDOUT_FILENO);
-		run_exec(fd_stdin, (*list));
+		// if () 													// запуск внутренних команд
+		//
+		// else
+		run_exec(fd_stdin, (*list));								// запуск системных команд
 	}
 	else if (pid > 0)
 	{

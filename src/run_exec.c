@@ -17,6 +17,7 @@ static void	error_run_exec(t_pars_list *list)
 	ft_putstr_fd("42sh: command not found: ", 2);
 	ft_putstr_fd(list->name_run_func, 2);
 	ft_putchar_fd('\n', 2);
+	exec_status = 127;
 	exit(127);
 }
 // запуск нового приложения

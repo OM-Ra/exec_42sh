@@ -59,7 +59,7 @@ static void	next_list(int status, t_pars_list **list)
 	else if (status)
 		status_dontok(list);
 }
-// проверка И / ИЛИ / & и вывор следующего запускаемого листа
+// проверка И / ИЛИ / & и выбор следующего запускаемого листа
 void		check_choice(t_pars_list **list)
 {
 	int status;
