@@ -1,7 +1,8 @@
 NAME = 42sh
 
 C_FILE = check_choice.c run_ampersant.c check_run.c run_pipe.c create_file.c \
-		 run_exec.c dup_fd_and_close.c main.c
+		 run_exec.c dup_fd_and_close.c new_or_open_file.c redirect_stream.c \
+		 main.c
 
 LIB = ./libft/libft.a
 

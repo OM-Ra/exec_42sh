@@ -1,0 +1,147 @@
+- дописать очистку памяти листов
+
+- добавить ошибку при вызове fork()
+
+- возможно, необходима синхронизация вывода фонового режима
+
+- дописать запуск внутренних команд и добавить возможность записи в файл
+
+- дописать дублирование дескриптора для команд   типа: "2>&1"
+
+- ещё подумать над трубами:
+	а) упростить код;
+	б) всё ли будет работать как задумано?;
+
+- дописать вывод об ошибке если нет прав запуска
+
+- дописать возможность труб для внутренних команд
+	(можно добавить в функции для труб перед запуском exec выбор внутренних команд)
+
+- ??? возможно, нужно дописать команду kill
+
+- реализовать перенаправление потоков, включая, в файлы
+
+- добавить заполнение статуса завершения программы в echo
+
+- реализовать заполнение адреса вызова программы
+
+- передавать в функции переменные окружения от init()
+
+- подумать над разнообрзием вывода об ошибке в перенаправлении потоков
+
+- возможно, в перенаправлении потоков нужно будет добавить открытие стандартных
+	потоков или закрывать их в dub2(), и под вопросом перенаправления в файл
+
+- разобраться с этим:
+
+	$> < /tmp/ftsh_ls_out cat -e >> /tmp/ftsh_ls_out
+
+	$> cat /tmp/ftsh_ls_out
+	{{ 2 listing de la racine doivent apparaître et le second doit avoir un $ à la
+	fin de chaque ligne }}
+	{{2 должен появиться список корня, а второй должен иметь $ в конце каждой строки}}
+
+- разобраться с этим:
+
+	$> echo 1 >out >&2 2>err
+	1
+
+	$> echo 2 >out 2>err
+
+	$> cat err
+
+	$> cat out
+	2
+
+- разобраться с этим:
+
+	$> echo non-standard fd > dup_fd
+	$> cat 4 non-standard fd$
+	$>
+
+- разобраться:
+
+	$> cat <&4
+	{{ Message d'erreur indiquant que le descripteur de fichier est invalide }}
+	{{Сообщение об ошибке, указывающее, что дескриптор файла недействителен}}
+
+- разобраться:
+
+	$> ls doesnotexist . 2>&1 >/dev/null
+	ls: doesnotexist: No such file or directory
+
+	$> ls doesnotexist . >/dev/null 2>&1
+	$>
+
+- разобраться:
+
+	$> exit 1 | exit 2 | exit 3; echo "stayin' alive"
+	stayin' alive
+	$>
+
+- разобраться:
+
+	$> echo out >&-; echo out2
+	{{ Message d'erreur facultatif indiquant qu'il est impossible d'écrire sur stdout }}
+	{{Необязательное сообщение об ошибке о невозможности записи в стандартный вывод}}
+	out2
+
+	$> echo out >&- | echo out2
+	{{ Message d'erreur facultatif indiquant qu'il est impossible d'écrire sur stdout }}
+	{{Необязательное сообщение об ошибке о невозможности записи в стандартный вывод}}
+	out2
+
+	$> echo out >&- && echo out2
+	{{ Message d'erreur facultatif indiquant qu'il est impossible d'écrire sur stdout }}
+	{{Необязательное сообщение об ошибке о невозможности записи в стандартный вывод}}
+
+	$> echo out >&- || echo out2
+	{{ Message d'erreur facultatif indiquant qu'il est impossible d'écrire sur stdout }}
+	{{Необязательное сообщение об ошибке о невозможности записи в стандартный вывод}}
+	out2
+
+- разобраться:
+
+	$> echo ${empty}|cat -e
+	$
+	$>
+
+- разобраться:
+
+	$> true; echo ${?}; false; echo ${?}
+	0
+	1
+
+- разобраться:
+
+	$> mkfifo fifo
+	$> ls -lR /usr >fifo 2>&1 &
+	$> jobs
+	{{ Message indiquant que la commande "ls" est en cours d'exécution }}
+	{{Сообщение, указывающее, что команда "ls" выполняется}}
+	$>
+
+- разобраться:
+
+	$> emacs -nw &
+	$> emacs -nw &
+	$> emacs -nw &
+	$> emacs -nw &
+	$> emacs -nw &
+	$> jobs
+	{{ Message indiquant que 5 instances d'emacs sont stoppés en arrière-plan }}
+	{{Сообщение о том, что 5 экземпляров Emacs остановлены в фоновом режиме}}
+	$>
+
+	$> fg%{{ un des emacs job number }} {{один из номеров задания emacs}}
+
+- разобраться: (строка 605)
+
+	$> jobs
+	{{ La commande "ls" lancé plus haut doit être la seule restante }}
+	{{Запущенная выше команда "ls" должна быть единственной оставшейся}}
+
+	$> cat -e {{ Sortie de la commande "ls". N'attendez pas la fin, coupez l'affichage avec CTRL-C }}
+	{{Выход из команды "ls". Не ждите конца, выключите дисплей с помощью CTRL-C}}
+	$> jobs
+	$>
