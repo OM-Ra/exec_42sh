@@ -8,7 +8,7 @@ int		redirect_stream(t_red_stream *stream_list)
 	buf_list = stream_list;
 	while (buf_list)
 	{
-		if (buf_list->stream_name)
+		if (buf_list->stream_name[0])
 		{
 			fd = new_or_open_file(buf_list->stream_name, 1);	// создаёт новый файл
 			if (dup_fd_and_close(buf_list->stream_a, fd))		// перенаправляет потоки

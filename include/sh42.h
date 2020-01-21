@@ -30,7 +30,7 @@ typedef struct			s_pars_list
 {
 	char				name_func[BUFSIZ];				// имя запускаемой программы
 	char				name_run_func[BUFSIZ];			// имя запускаемой программы с путём запуска
-	char				**pars_args;					// разбитые аргументы строки 
+	char				*pars_args[BUFSIZ];				// разбитые аргументы строки 
 	int					status;							// статус завершения вызванной программы (заполню)
 
 	int					flag_file;						// флаг файла: ">" = "1", ">>" = "2", "<" = "-1"
@@ -43,7 +43,7 @@ typedef struct			s_pars_list
 
 	int					flag_ampersant;					// флаг "&"
 	int					nbr_ampersant;					// номер фонового режима
-	char				name_ampersant_file[BUFSIZ];	// имя файла куда будет записан вывод фонового режима (заполню)
+	// char				name_ampersant_file[BUFSIZ];	// имя файла куда будет записан вывод фонового режима (заполню)
 
 	int					flag_pipe;						// флаг "|"
 	int					flag_semicolon;					// флаг ";"
@@ -53,7 +53,9 @@ typedef struct			s_pars_list
 	struct s_pars_list	*right;
 	struct s_pars_list	*left;
 }						t_pars_list;
-
+/*
+** exec function
+*/
 void					check_choice(t_pars_list **list);
 int						check_run(t_pars_list **list);
 int						create_file(t_pars_list *list);
@@ -63,7 +65,17 @@ void					run_exec(int fd, t_pars_list *list);
 int						run_pipe(int fd_stdin, t_pars_list **list);
 int						new_or_open_file(char *file_name, int flag_open);
 int						redirect_stream(t_red_stream *stream_list);
-
+t_pars_list				*free_pars_list(t_pars_list *list);
+/*
+** parsing function
+*/
+t_pars_list				*pars_new_list(t_pars_list *list);
+char					*pars_read(void);
+t_pars_list				*pars_parsing(char *line);
+/*
+** test function
+*/
+t_pars_list				*test(void);
 int						main(void);
 
 /***

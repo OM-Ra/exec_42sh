@@ -14,12 +14,26 @@
 // функция для промотки труб
 static void	list_not_go_pipe(t_pars_list **list)
 {
-	while (*list)
-	{
-		(*list) = (*list)->right;
-		if (!(*list)->flag_pipe)
-			break ;
-	}
+	if ((*list)->flag_pipe)
+		while (*list)
+		{
+			(*list) = (*list)->right;
+			if ((*list) && !(*list)->flag_pipe)
+			{
+				(*list) = (*list)->right;
+				break ;
+			}
+		}
+	else if ((*list)->flag_or)
+		while (*list)
+		{
+			(*list) = (*list)->right;
+			if ((*list) && !(*list)->flag_or)
+			{
+				(*list) = (*list)->right;
+				break ;
+			}
+		}
 }
 // функция для промотки листов при успешном завершении команды
 static void	status_ok(t_pars_list **list)
@@ -30,9 +44,9 @@ static void	status_ok(t_pars_list **list)
 	{
 		buf_list = (*list);
 		(*list) = (*list)->right;
-		if ((buf_list->flag_semicolon) && (buf_list->flag_and))
+		if ((buf_list->flag_semicolon) || (buf_list->flag_and))
 			break ;
-		if ((buf_list->flag_or) && ((*list)->flag_pipe))
+		else if (buf_list->flag_or)
 			list_not_go_pipe(list);
 	}	
 }
