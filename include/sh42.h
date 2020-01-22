@@ -15,13 +15,13 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-int exec_status;
+static int exec_status;
 // структура для перенаправления потоков
 typedef struct			s_red_stream
 {
 	int					stream_a;						// какой поток будет перенаправлен
 	int					stream_in;						// в какой поток будет перенаправлен
-	char				stream_name[BUFSIZ];			// в какой файл будет направлен поток
+	char				stream_name[BUFSIZ];			// в какой файл будет направлен поток stream_a в stream_name
 
 	struct s_red_stream	*next;
 }						t_red_stream;
@@ -39,11 +39,10 @@ typedef struct			s_pars_list
 	t_red_stream		*stream_list;					// для перенаправления потоков
 
 	int					echo_status;					// флаг заполнения статуса
-	char				str_status[BUFSIZ][BUFSIZ];		// строки в которых нужно вставить статус
+	char				*str_status[BUFSIZ];		// строки в которых нужно вставить статус
 
 	int					flag_ampersant;					// флаг "&"
 	int					nbr_ampersant;					// номер фонового режима
-	// char				name_ampersant_file[BUFSIZ];	// имя файла куда будет записан вывод фонового режима (заполню)
 
 	int					flag_pipe;						// флаг "|"
 	int					flag_semicolon;					// флаг ";"
@@ -66,6 +65,7 @@ int						run_pipe(int fd_stdin, t_pars_list **list);
 int						new_or_open_file(char *file_name, int flag_open);
 int						redirect_stream(t_red_stream *stream_list);
 t_pars_list				*free_pars_list(t_pars_list *list);
+int						proba_pipe(int *fd_stdin, t_pars_list **list);
 /*
 ** parsing function
 */
