@@ -11,59 +11,61 @@
 /* ************************************************************************** */
 
 #include "sh42.h"
-// функция завершения выволнения рекурсии
-static void	end_recurs(int fd_stdin, t_pars_list **list, int pfd[2])
+// закрывает все дескрипторы трубы от заданного листа включительно
+static void		close_all_fd(t_pipe_list *pipeList)
 {
-	close(pfd[0]);
-	close(pfd[1]);
-	create_file(*list);							// если вывод будет в файл
-	// if ()									// запуск внутренних команд
-	//
-	// else		
-	run_exec(fd_stdin, *list);					// запуск системных команд
-}
-// функция с родительским кодом
-static int	go_recurs(int pfd[2], t_pars_list **list)
-{
-	int status;
+	t_pipe_list *buf_pipelist;
 
-	if ((*list) && ((*list)->flag_pipe))	// когда трубы продолжаются
+	buf_pipelist = pipeList;
+	while (buf_pipelist)
 	{
-		(*list) = (*list)->right;
-		status = run_pipe(pfd[0], list);
+		close(buf_pipelist->pfd[0]);
+		close(buf_pipelist->pfd[1]);
+		buf_pipelist = buf_pipelist->left;
 	}
-	close(pfd[0]);
-	close(pfd[1]);
-	return (status);
+}
+// закрывает ненужные дескрипторы трубы
+static void		close_pipe_fd(t_pipe_list *pipelist)
+{
+	t_pipe_list	*buf_pipelist;
+
+	buf_pipelist = pipelist->left;
+	if (buf_pipelist)
+		close(buf_pipelist->pfd[1]);
+	else
+		return ;
+	buf_pipelist = buf_pipelist->left;
+	close_all_fd(buf_pipelist);
 }
 // рекурсивно запускает трубы
-int			run_pipe(int fd_stdin, t_pars_list **list)
+void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
 {
-	int			pfd[2];
 	pid_t		pid;
 	t_pars_list	*buf_list;
-	int			status;
+	t_pipe_list	*buf_pipelist;
 
-	status = 0;
+	pipelist = new_pipe_list(pipelist);
+	pipe(pipelist->pfd);
 	buf_list = (*list);
-	pipe(pfd);
-	if ((!(pid = fork())) && (*list) && (!((*list)->flag_pipe) ||	// конец труб
-			(*list)->flag_semicolon))								// или команды разделены " ; "
-		end_recurs(fd_stdin, list, pfd);
-	if (!pid)														// процесс потомок
+	if((pid = fork()) < 0)
+		exit(1);		////// сделать нормальное завершение
+	if (!pid)
 	{
-		dup_fd_and_close(pfd[1], STDOUT_FILENO);
-		// if () 													// запуск внутренних команд
-		//
-		// else
-		run_exec(fd_stdin, (*list));								// запуск системных команд
+		buf_pipelist = pipelist->left;
+		if (buf_list->flag_pipe)
+			dup_fd_and_close(pipelist->pfd[1], STDOUT_FILENO);
+		else
+			close(pipelist->pfd[1]);
+		close(pipelist->pfd[0]);
+		close_pipe_fd(pipelist);
+		create_file(buf_list);
+		run_exec(buf_pipelist->pfd[0], buf_list);
 	}
-	else if (pid > 0)
+	if ((buf_list->right) && (buf_list->flag_pipe))
 	{
-		status = go_recurs(pfd, list);
-		waitpid(pid, &buf_list->status, WUNTRACED);
+		(*list) = (*list)->right;
+		run_pipe(pipelist, list);
 	}
-	if (status > buf_list->status)
-		return (status);
-	return (buf_list->status);
+	close_all_fd(pipelist);
+	waitpid(pid, &buf_list->status, WUNTRACED);
 }

@@ -31,12 +31,16 @@ static int	run_fork(t_pars_list **list)
 // определяет характер выполнения кода
 int		check_run(t_pars_list **list)
 {
-	int status;
+	int			status;
+	t_pipe_list	*pipeList;
 
 	if ((*list)->flag_pipe)
 	{
-		status = run_pipe(-1, list);
+		pipeList = NULL;
+		run_pipe(pipeList, list);
 		exec_status = (*list)->status;
+		status = exec_status;
+		free_pipe_list(pipeList);
 	}
 	// else if ()						// дописсать вариант запуска внутренних команд
 	//

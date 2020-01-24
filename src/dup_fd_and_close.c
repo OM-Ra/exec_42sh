@@ -11,14 +11,6 @@
 /* ************************************************************************** */
 
 #include "sh42.h"
-// вывод ошибки дескриптора файла
-int		error_deskriptor(int fd)
-{
-	ft_putstr_fd("42sh: fd = ", 2);
-	ft_putnbr_fd(fd, 2);
-	ft_putstr_fd(": invalid file descriptor\n", 2);
-	return (1);
-}
 // для дублирования дескрипторов
 int		dup_fd_and_close(int fd, int dup_fd)
 {

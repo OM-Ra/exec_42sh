@@ -61,8 +61,6 @@ int			run_ampersant(t_pars_list **list)
 		// setsid();				// чтобы сделать полного демона
 		if (!(pid = fork()))
 		{
-			// setsid();			// чтобы сделать лидером сессии
-			chdir("/");
 			ft_strcat(str_nbr_ampersant, ft_itoa((*list)->nbr_ampersant));
 			put_nbr_ampersant(str_nbr_ampersant);
 			check_run(list);
