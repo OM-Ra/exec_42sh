@@ -1,5 +1,5 @@
 #include "sh42.h"
-// &&, ||
+
 void 		combo0(void);
 void		combo1(void);
 void		combo2(void);
@@ -38,7 +38,107 @@ t_pars_list			*test100(void)
 
 	return (list0);
 }
+// $> ls  | grep "sh" | wc -l | cat -e
+t_pars_list			*test11(void)
+{
+	t_pars_list		*list0, *list1, *list2, *list3;
 
+	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list0->name_func, "ls");
+	list0->name_run_func[0] = '\0';
+	list0->pars_args[0] = ft_strdup("ls");
+	list0->pars_args[1] = NULL;
+	list0->pars_args[2] = NULL;
+	list0->status = 0;
+	list0->flag_file = 0;
+	list0->name_file[0] = '\0';
+	list0->stream_list = NULL;
+	list0->echo_status = 0;
+	list0->str_status[0][0] = '\0';
+	list0->flag_ampersant = 0;
+	list0->nbr_ampersant = 0;
+	list0->flag_pipe = 1;
+	list0->flag_semicolon = 0;
+	list0->flag_and = 0;
+	list0->flag_or = 0;
+	list0->right = NULL;
+	list0->left = NULL;
+
+	if (!(list1 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list1->name_func, "grep");
+	list1->name_run_func[0] = '\0';
+	list1->pars_args[0] = ft_strdup("grep");
+	list1->pars_args[1] = ft_strdup("sh");
+	list1->pars_args[2] = NULL;
+	list1->status = 0;
+	list1->flag_file = 0;
+	list1->name_file[0] = '\0';
+	list1->stream_list = NULL;
+	list1->echo_status = 0;
+	list1->str_status[0][0] = '\0';
+	list1->flag_ampersant = 0;
+	list1->nbr_ampersant = 0;
+	list1->flag_pipe = 1;
+	list1->flag_semicolon = 0;
+	list1->flag_and = 0;
+	list1->flag_or = 0;
+	list1->right = NULL;
+	list1->left = NULL;
+
+	if (!(list2 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list2->name_func, "wc");
+	list2->name_run_func[0] = '\0';
+	list2->pars_args[0] = ft_strdup("wc");
+	list2->pars_args[1] = ft_strdup("-l");
+	list2->pars_args[2] = NULL;
+	list2->status = 0;
+	list2->flag_file = 0;
+	list2->name_file[0] = '\0';
+	list2->stream_list = NULL;
+	list2->echo_status = 0;
+	list2->str_status[0][0] = '\0';
+	list2->flag_ampersant = 0;
+	list2->nbr_ampersant = 0;
+	list2->flag_pipe = 1;
+	list2->flag_semicolon = 0;
+	list2->flag_and = 0;
+	list2->flag_or = 0;
+	list2->right = NULL;
+	list2->left = NULL;
+
+	if (!(list3 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list3->name_func, "cat");
+	list3->name_run_func[0] = '\0';
+	list3->pars_args[0] = ft_strdup("cat");
+	list3->pars_args[1] = ft_strdup("-e");
+	list3->pars_args[2] = NULL;
+	list3->status = 0;
+	list3->flag_file = 0;
+	list3->name_file[0] = '\0';
+	list3->stream_list = NULL;
+	list3->echo_status = 0;
+	list3->str_status[0][0] = '\0';
+	list3->flag_ampersant = 0;
+	list3->nbr_ampersant = 0;
+	list3->flag_pipe = 0;
+	list3->flag_semicolon = 0;
+	list3->flag_and = 0;
+	list3->flag_or = 0;
+	list3->right = NULL;
+	list3->left = NULL;
+
+	list0->right = list1;
+	list1->left = list0;
+	list1->right = list2;
+	list2->left = list1;
+	list2->right = list3;
+	list3->left = list2;
+	return (list0);
+}
 // $> ls | wc -l | cat -e
 t_pars_list			*test10(void)
 {
@@ -840,13 +940,7 @@ t_pars_list			*test(void)
 
 	combo2();
 
-	list = test10();			// $> ls | wc -l | cat -e
-	if (list)
-	{
-		ft_putstr("\n\n\n10>>> ls | wc -l | cat -e\n");
-		check_choice(&list);
-		free_pars_list(list);
-	}
+
 
 //	list = test100();		// $> ls -l & +
 //	{
@@ -929,10 +1023,24 @@ void		combo2(void)		// |
 {
 	t_pars_list		*list;
 
-	list = test9();			// $> ls | wc -l +
+	list = test9();				// $> ls | wc -l +
 	if (list)
 	{
 		ft_putstr("\n\n\n9>>> ls | wc -l\n");
+		check_choice(&list);
+		free_pars_list(list);
+	}
+	list = test10();			// $> ls | wc -l | cat -e +
+	if (list)
+	{
+		ft_putstr("\n\n\n10>>> ls | wc -l | cat -e\n");
+		check_choice(&list);
+		free_pars_list(list);
+	}
+	list = test11();		// $> ls  | grep "sh" | wc -l | cat -e +
+	if (list)
+	{
+		ft_putstr("\n\n\n11>>> ls | grep \"sh\" | wc -l | cat -e\n");
 		check_choice(&list);
 		free_pars_list(list);
 	}

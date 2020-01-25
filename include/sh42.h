@@ -19,6 +19,7 @@ static int exec_status;									// хранит статус последнег�
 // структура для труб
 typedef struct			s_pipe_list
 {
+	int					num_rec;
 	int 				pfd[2];							// дескрипторы труб
 	struct s_pipe_list	*right;
 	struct s_pipe_list	*left;
