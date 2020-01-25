@@ -37,30 +37,27 @@ static void		close_pipe_fd(t_pipe_list *pipelist)
 	buf_pipelist = buf_pipelist->left;
 	close_all_fd(buf_pipelist);
 }
-// рекурсивно запускает трубы
-void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
+// код потомка
+static void		cod_child(t_pipe_list *pipelist, t_pars_list *list)
 {
-	pid_t		pid;
-	t_pars_list	*buf_list;
-	t_pipe_list	*buf_pipelist;
+	t_pipe_list *buf_pipelist;
 
-	pipelist = new_pipe_list(pipelist);
-	pipe(pipelist->pfd);
+	buf_pipelist = (pipelist->left) ? pipelist->left : pipelist;
+	if (list->flag_pipe)
+		dup_fd_and_close(pipelist->pfd[1], STDOUT_FILENO);
+	else
+		close(pipelist->pfd[1]);
+	close(pipelist->pfd[0]);
+	close_pipe_fd(pipelist);
+	create_file(list);
+	run_exec(buf_pipelist->pfd[0], list);
+}
+// код родителя
+static void		cod_parent(pid_t pid, t_pipe_list *pipelist, t_pars_list **list)
+{
+	t_pars_list *buf_list;
+
 	buf_list = (*list);
-	if((pid = fork()) < 0)
-		exit(1);		////// сделать нормальное завершение
-	if (!pid)
-	{
-		buf_pipelist = (pipelist->left) ? pipelist->left : pipelist;
-		if (buf_list->flag_pipe)
-			dup_fd_and_close(pipelist->pfd[1], STDOUT_FILENO);
-		else
-			close(pipelist->pfd[1]);
-		close(pipelist->pfd[0]);
-		close_pipe_fd(pipelist);
-		create_file(buf_list);
-		run_exec(buf_pipelist->pfd[0], buf_list);
-	}
 	if ((buf_list->right) && (buf_list->flag_pipe))
 	{
 		(*list) = (*list)->right;
@@ -68,4 +65,17 @@ void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
 	}
 	close_all_fd(pipelist);
 	waitpid(pid, &buf_list->status, WUNTRACED);
+}
+// рекурсивно запускает трубы
+void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
+{
+	pid_t		pid;
+
+	pipelist = new_pipe_list(pipelist);
+	pipe(pipelist->pfd);
+	if((pid = fork()) < 0)
+		exit(1);		////// сделать нормальное завершение
+	if (!pid)
+		cod_child(pipelist, (*list));
+	cod_parent(pid, pipelist, list);
 }
