@@ -61,19 +61,22 @@ void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
 	t_pars_list	*buf_list;
 	t_pipe_list	*buf_pipelist;
 	static int			fd;
+	int 				fd_exec;
 
 	if (!fd)
 		fd = new_or_open_file("/home/ra/Документы/42sh/test_pipe", 2);
 	pipelist = new_pipe_list(pipelist); dprintf(fd, "создание листа %d\n", pipelist->num_rec);
-	if (pipelist->num_rec)
-		pipe(pipelist->pfd); dprintf(fd, "экз: %d: труба %d-чтение %d-запись\n", pipelist->num_rec, pipelist->pfd[0], pipelist->pfd[1]);
+	pipe(pipelist->pfd); dprintf(fd, "экз: %d: труба %d-чтение %d-запись\n", pipelist->num_rec, pipelist->pfd[0], pipelist->pfd[1]);
 	buf_list = (*list);
 	if((pid = fork()) < 0)
 		exit(1);		////// сделать нормальное завершение
 	if (!pid)
 	{
 		dprintf(fd, "экз: %d: зашёл в потомка\n", pipelist->num_rec); put_all_fd(pipelist, fd);
-		buf_pipelist = pipelist->left;
+		if (pipelist->left)
+			buf_pipelist = pipelist->left;
+		else
+			buf_pipelist = pipelist;
 		if (buf_list->flag_pipe)
 			{dup_fd_and_close(pipelist->pfd[1], STDOUT_FILENO); dprintf(fd, "экз: %d: перенаправление потока для %d - запись\n", pipelist->num_rec, pipelist->pfd[1]);}
 		else
@@ -81,7 +84,8 @@ void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
 		close(pipelist->pfd[0]); dprintf(fd, "экз: %d: закрыл %d - чтение\n", pipelist->num_rec, pipelist->pfd[0]);
 		dprintf(fd, "экз: %d: заходит в закрытие дескрипторов\n", pipelist->num_rec);
 		close_pipe_fd(pipelist, fd);
-		create_file(buf_list);dprintf(fd, "экз: %d: exec\n", pipelist->num_rec);
+		create_file(buf_list); dprintf(fd, "экз: %d: exec\n", pipelist->num_rec);
+//		fd_exec = ()
 		run_exec(buf_pipelist->pfd[0], buf_list);
 	}
 	dprintf(fd, "экз: %d: зашёл в родителя\n", pipelist->num_rec); put_all_fd(pipelist, fd);
