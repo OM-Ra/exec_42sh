@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_fd_and_close.c                                 :+:      :+:    :+:   */
+/*   stream_and_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/10 11:42:17 by mdelphia          #+#    #+#             */
-/*   Updated: 2019/12/10 11:42:19 by mdelphia         ###   ########.fr       */
+/*   Created: 2019/12/10 11:42:00 by mdelphia          #+#    #+#             */
+/*   Updated: 2019/12/10 11:42:03 by mdelphia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh42.h"
-// для дублирования дескрипторов
-int		dup_fd_and_close(int fd, int dup_fd)
+// для создания файла или, просто, его открытие
+int			stream_and_file(t_pars_list *list)
 {
-	if (fd != dup_fd)
-	{
-		if (dup2(fd, dup_fd) < 0)
-			return (1);
-		close(fd);
-	}
+	if (list->stream_list)
+		if (redirect_stream(list->stream_list))
+			return (-1);
 	return (0);
 }

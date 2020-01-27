@@ -16,8 +16,6 @@ static t_pars_list	*create_list(void)
 	new_list->name_run_func[0] = '\0';
 	new_list->pars_args[0] = NULL;
 	new_list->status = 0;
-	new_list->flag_file = 0;
-	new_list->name_file[0] = '\0';
 	new_list->stream_list = NULL;
 	new_list->echo_status = 0;
 	new_list->str_status[0][0] = '\0';

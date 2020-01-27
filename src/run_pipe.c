@@ -38,7 +38,7 @@ static void		close_pipe_fd(t_pipe_list *pipelist)
 	close_all_fd(buf_pipelist);
 }
 // код потомка
-static void		cod_child(t_pipe_list *pipelist, t_pars_list *list)
+static void		cod_child(t_pipe_list *pipelist, t_pars_list *list)	//////// добавить запуск внутренних команд
 {
 	t_pipe_list *buf_pipelist;
 
@@ -49,7 +49,7 @@ static void		cod_child(t_pipe_list *pipelist, t_pars_list *list)
 		close(pipelist->pfd[1]);
 	close(pipelist->pfd[0]);
 	close_pipe_fd(pipelist);
-	create_file(list);
+	stream_and_file(list);
 	run_exec(buf_pipelist->pfd[0], list);
 }
 // код родителя

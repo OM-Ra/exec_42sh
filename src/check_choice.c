@@ -70,7 +70,7 @@ static void	next_list(int status, t_pars_list **list)
 {
 	if (!status)
 		status_ok(list);
-	else if (status)
+	else
 		status_dontok(list);
 }
 // проверка И / ИЛИ / & и выбор следующего запускаемого листа
