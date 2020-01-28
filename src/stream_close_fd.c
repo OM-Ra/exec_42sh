@@ -1,10 +1,10 @@
 #include "sh42.h"
 // ошибка дескриптора
-static int	error_fd(int *fd)
+static int	error_fd(int fd)
 {
 	ft_putstr_fd("42sh: ", 2);
 	ft_putnbr_fd(fd, 2);
-	ft_putstr_fd(": invalid descriptor\n")
+	ft_putstr_fd(": invalid descriptor\n", 2);
 	return (1);
 }
 // ошибка каталога или файлач
