@@ -31,6 +31,8 @@ typedef struct			s_red_stream
 	char				stream_name[BUFSIZ];			// в какой файл будет направлен поток
 	int					fd_file;						// дескриптор открытого файла (по умолчанию -1, будет заполнено в exec)
 	int					flag_file;						// флаг файла: ">" = "1", ">>" = "2", "<" = "-1" (по умолчанию 0)
+	int					flag_close;						// флаг о закрытии дескриптора (по умолчанию 0)
+	
 	struct s_red_stream	*next;
 }						t_red_stream;
 
