@@ -36,7 +36,12 @@ int			redirect_stream(t_red_stream *stream_list)
 	buf_list = stream_list;
 	while (buf_list)
 	{
-		if (dup_stream(buf_list))
+		if (buf_list->flag_close)
+		{
+			if (stream_close_fd(buf_list))
+				return (1);
+		}
+		else if (dup_stream(buf_list))
 			return (1);
 		buf_list = buf_list->next;
 	}

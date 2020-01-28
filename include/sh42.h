@@ -26,7 +26,7 @@ typedef struct			s_pipe_list
 // структура для перенаправления потоков
 typedef struct			s_red_stream
 {
-	int					stream_a;						// какой поток будет перенаправлен
+	int					stream_a;						// какой поток будет перенаправлен или закрыт, при соответствующем флаге
 	int					stream_in;						// в какой поток будет перенаправлен
 	char				stream_name[BUFSIZ];			// в какой файл будет направлен поток
 	int					fd_file;						// дескриптор открытого файла (по умолчанию -1, будет заполнено в exec)
@@ -34,6 +34,7 @@ typedef struct			s_red_stream
 	int					flag_close;						// флаг о закрытии дескриптора (по умолчанию 0)
 	
 	struct s_red_stream	*next;
+	struct s_red_stream	*left;
 }						t_red_stream;
 
 typedef struct			s_pars_list
@@ -75,6 +76,7 @@ int						new_or_open_file(char *file_name, int flag_open);
 t_pars_list				*free_pars_list(t_pars_list *list);
 t_pipe_list				*new_pipe_list(t_pipe_list *pipelist);
 void 					free_pipe_list(t_pipe_list *pipelist);
+int						stream_close_fd(t_red_stream *stream_list);
 /*
 ** parsing function
 */
