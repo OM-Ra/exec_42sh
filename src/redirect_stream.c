@@ -15,6 +15,26 @@ static int	error_fd(int fd_a, int fd_in)
 		put_error_fd(fd_in);
 	return (1);
 }
+// поиск перенаправленного дескриптора
+static int	find_redirect_fd(t_red_stream *list)
+{
+	t_red_stream *buflist;
+
+	buflist = list->left;
+	while (buflist)
+	{
+		if (buflist->stream_a == list->stream_in)
+		{
+			if (buflist->stream_in > -1)
+				list->stream_in = buflist->stream_in;
+			else if (buflist->fd_file > -1)
+				list->stream_in = buflist->fd_file;
+			break ;
+		}
+		buflist = buflist->left;
+	}
+	return (list->stream_in);
+}
 // перенаправляет потоки из листов
 static int	dup_stream(t_red_stream *buf_list)
 {
@@ -24,7 +44,7 @@ static int	dup_stream(t_red_stream *buf_list)
 			if (dup_fd_and_close(buf_list->stream_a, buf_list->fd_file))
 				return (error_fd(buf_list->stream_a, buf_list->fd_file));
 	}
-	else if (dup_fd_and_close(buf_list->stream_a, buf_list->stream_in))
+	else if (dup_fd_and_close(buf_list->stream_a, find_redirect_fd(buf_list)))
 		return (error_fd(buf_list->stream_a, buf_list->stream_in));
 	return(0);
 }

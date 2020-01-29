@@ -3,6 +3,7 @@
 void 		combo0(void);
 void		combo1(void);
 void		combo2(void);
+void		combo_checklist(void);
 
 static t_pars_list	*error_list(void)
 {
@@ -39,6 +40,12 @@ t_pars_list			*test100(void)
 }
 
 
+
+//
+static t_pars_list			*test16(void)
+{
+
+}
 //$> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
 static t_pars_list			*test15(void)
 {
@@ -53,6 +60,7 @@ static t_pars_list			*test15(void)
 	ft_strcat(std_list0->stream_name, "./fifo");
 	std_list0->flag_file = 1;
 	std_list0->next = NULL;
+	std_list0->left = NULL;
 
 	if(!(std_list1 = (t_red_stream *)malloc(sizeof(t_red_stream))))
 		return (error_list());
@@ -62,8 +70,10 @@ static t_pars_list			*test15(void)
 	std_list1->stream_name[0] = '\0';
 	std_list1->flag_file = 0;
 	std_list1->next = NULL;
+	std_list1->left = NULL;
 
 	std_list0->next = std_list1;
+	std_list1->left = std_list0;
 
 	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
 		return (error_list());
@@ -128,10 +138,12 @@ static t_pars_list			*test15(void)
 
 	list0->right = list1;
 	list1->left = list0;
-//	list1->right = list2;
-	list1->right = NULL;
+
+	list1->right = list2;
 	list2->left = list1;
-	return (list1);
+
+	list2->right = NULL;
+	return (list0);
 }
 // $> ls doesnotexist . >/dev/null 2>&1
 static t_pars_list			*test14(void)
@@ -147,6 +159,7 @@ static t_pars_list			*test14(void)
 	ft_strcat(std_list0->stream_name, "/dev/null");
 	std_list0->flag_file = 1;
 	std_list0->next = NULL;
+	std_list0->left = NULL;
 
 	if(!(std_list1 = (t_red_stream *)malloc(sizeof(t_red_stream))))
 		return (error_list());
@@ -158,6 +171,8 @@ static t_pars_list			*test14(void)
 	std_list1->next = NULL;
 
 	std_list0->next = std_list1;
+	std_list1->left = std_list0;
+
 
 	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
 		return (error_list());
@@ -207,6 +222,7 @@ static t_pars_list			*test13(void)
 	std_list1->next = NULL;
 
 	std_list0->next = std_list1;
+	std_list1->left = std_list0;
 
 	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
 		return (error_list());
@@ -1100,8 +1116,10 @@ t_pars_list			*test(void)
 //	combo0();
 //	combo1();
 //	combo2();
+//	combo_checklist();
 
-	list = test15();		//$> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
+
+	list = test15();		// $> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
 	{
 		ft_putstr("\n\n\n15>>> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs\n");
 		ft_putstr("nid>> {{Сообщение, указывающее, что команда \"ls\" выполняется}}\n");
@@ -1225,7 +1243,7 @@ void		combo_checklist(void)
 		free_pars_list(list);
 	}
 
-	list = test13();		// $> ls doesnotexist . 2>&1 >/dev/null ?
+	list = test13();		// $> ls doesnotexist . 2>&1 >/dev/null +
 	{
 		ft_putstr("\n\n\n13>>> ls doesnotexist . 2>&1 >/dev/null\n");
 		ft_putstr("nid>> {{ls: doesnotexist: No such file or directory}}\n");
@@ -1233,7 +1251,7 @@ void		combo_checklist(void)
 		free_pars_list(list);
 	}
 
-	list = test14();		// $> ls doesnotexist . >/dev/null 2>&1 -
+	list = test14();		// $> ls doesnotexist . >/dev/null 2>&1 +
 	{
 		ft_putstr("\n\n\n14>>> ls doesnotexist . >/dev/null 2>&1\n");
 		ft_putstr("nid>> {{}}\n");
