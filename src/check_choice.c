@@ -74,7 +74,7 @@ static void	next_list(int status, t_pars_list **list)
 		status_dontok(list);
 }
 // проверка И / ИЛИ / & и выбор следующего запускаемого листа
-void		check_choice(t_pars_list **list)
+void		check_choice(t_exec execlist, t_pars_list **list)
 {
 	int status;
 
@@ -82,9 +82,12 @@ void		check_choice(t_pars_list **list)
 	while (*list)
 	{
 		if ((*list)->flag_ampersant)		// отдельно запускается фоновый режим выполнения команд
-			status = run_ampersant(list);
+			status = run_ampersant(execlist, list);
 		else
-			status = check_run(list);		// запуск функции определения режима запускаемых команд (это могут быть трубы, или обычный режим, или внутренние команды)
+		{
+			status = check_run(execlist, list);		// запуск функции определения режима запускаемых команд (это могут быть трубы, или обычный режим, или внутренние команды)}
+//			close_and_open_std();
+		}
 		next_list(status, list);			// функция выбора следующего запускаемого листа
 	}
 }

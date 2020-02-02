@@ -38,22 +38,22 @@ static void		close_pipe_fd(t_pipe_list *pipelist)
 	close_all_fd(buf_pipelist);
 }
 // код потомка
-static void		cod_child(t_pipe_list *pipelist, t_pars_list *list)	//////// добавить запуск внутренних команд
+static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *list)	//////// добавить запуск внутренних команд
 {
 	t_pipe_list *buf_pipelist;
 
-	buf_pipelist = (pipelist->left) ? pipelist->left : pipelist;
+	buf_pipelist = ((*pipelist)->left) ? (*pipelist)->left : (*pipelist);
 	if (list->flag_pipe)
-		dup_fd_and_close(pipelist->pfd[1], STDOUT_FILENO);
+		dup_fd_and_close((*pipelist)->pfd[1], STDOUT_FILENO);
 	else
-		close(pipelist->pfd[1]);
-	close(pipelist->pfd[0]);
-	close_pipe_fd(pipelist);
+		close((*pipelist)->pfd[1]);
+	close((*pipelist)->pfd[0]);
+	close_pipe_fd(*pipelist);
 	stream_and_file(list);
-	run_exec(buf_pipelist->pfd[0], list);
+	run_exec(execlist, buf_pipelist->pfd[0], list);
 }
 // код родителя
-static void		cod_parent(pid_t pid, t_pipe_list *pipelist, t_pars_list **list)
+static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pars_list **list)
 {
 	t_pars_list *buf_list;
 
@@ -61,21 +61,23 @@ static void		cod_parent(pid_t pid, t_pipe_list *pipelist, t_pars_list **list)
 	if ((buf_list->right) && (buf_list->flag_pipe))
 	{
 		(*list) = (*list)->right;
-		run_pipe(pipelist, list);
+		run_pipe(execlist, pipelist, list);
 	}
-	close_all_fd(pipelist);
+	close_all_fd(*pipelist);
 	waitpid(pid, &buf_list->status, WUNTRACED);
+	if (buf_list->status == 432)
+		error_system(432);
 }
 // рекурсивно запускает трубы
-void			run_pipe(t_pipe_list *pipelist, t_pars_list **list)
+void			run_pipe(t_exec execlist, t_pipe_list **pipelist, t_pars_list **list)
 {
 	pid_t		pid;
 
-	pipelist = new_pipe_list(pipelist);
-	pipe(pipelist->pfd);
+	(*pipelist) = new_pipe_list(*pipelist);
+	pipe((*pipelist)->pfd);
 	if((pid = fork()) < 0)
-		exit(1);		////// сделать нормальное завершение
+		error_system(432);
 	if (!pid)
-		cod_child(pipelist, (*list));
-	cod_parent(pid, pipelist, list);
+		cod_child(execlist, pipelist, (*list));
+	cod_parent(execlist, pid, pipelist, list);
 }

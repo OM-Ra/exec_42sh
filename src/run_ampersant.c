@@ -49,7 +49,7 @@ static void	put_end_ampersant(t_pars_list *buf_list, char *str_nbr_ampersant)
 	put_name_func(buf_list, buf_list->nbr_ampersant);
 }
 // запуск фонового режима
-int			run_ampersant(t_pars_list **list)
+int			run_ampersant(t_exec execlist, t_pars_list **list)
 {
 	pid_t		pid;
 	char		str_nbr_ampersant[BUFSIZ];
@@ -63,7 +63,7 @@ int			run_ampersant(t_pars_list **list)
 		{
 			ft_strcat(str_nbr_ampersant, ft_itoa((*list)->nbr_ampersant));
 			put_nbr_ampersant(str_nbr_ampersant);
-			check_run(list);
+			check_run(execlist, list);
 			waitpid(pid, 0, WUNTRACED);
 			put_end_ampersant(buf_list, str_nbr_ampersant);
 			exit(0);

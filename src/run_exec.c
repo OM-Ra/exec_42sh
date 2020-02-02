@@ -29,7 +29,7 @@ static void error_access_exec(t_pars_list *list)
 	exec_status = 126;
 	exit(126);
 }
-// 
+// записывает адрес и имя функции для запуска
 static void	find_name_path(char *name_path, size_t *i, t_pars_list *list)
 {
 	size_t j;
@@ -49,16 +49,14 @@ static void	find_name_path(char *name_path, size_t *i, t_pars_list *list)
 	ft_strcat(list->name_run_func, list->name_func);
 }
 // запись имени функции с путём запуска
-static void	write_name_run(t_pars_list *list)
+static void	write_name_run(t_exec execlist, t_pars_list *list)
 {
-	char	*name_path;
 	size_t	i;
 
 	i = 0;
-	name_path = getenv("PATH");
-	while (name_path[i])
+	while (execlist.exec_envlist.path[i])
 	{
-		find_name_path(name_path, &i, list);
+		find_name_path(execlist.exec_envlist.path, &i, list);
 		if (!access(list->name_run_func, 0))
 		{
 			if (!access(list->name_run_func, 1))
@@ -70,13 +68,13 @@ static void	write_name_run(t_pars_list *list)
 	error_run_exec(list);
 }
 // запуск нового приложения
-void		run_exec(int fd, t_pars_list *list)
+void		run_exec(t_exec execlist, int fd, t_pars_list *list)
 {
 	extern char	**environ;
 
 	if (fd > -1)							// если необходимо изменить поток чтения
 		dup_fd_and_close(fd, STDIN_FILENO);
-	write_name_run(list);
+	write_name_run(execlist, list);
 	if (execve(list->name_run_func, list->pars_args, environ))
 		error_run_exec(list);
 }

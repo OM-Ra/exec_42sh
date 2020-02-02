@@ -1127,7 +1127,7 @@ t_pars_list			*test(void)
 
 //	combo0();
 //	combo1();
-//	combo2();
+	combo2();
 //	combo_checklist();
 
 
@@ -1147,47 +1147,49 @@ t_pars_list			*test(void)
 void 		combo0(void)		// &&, ||
 {
 	t_pars_list		*list;
+	t_exec execlist;
 
+	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 	list = test1();		// $> ls -l || pwd +
 	if (list)
 	{
 		ft_putstr("\n\n\n1>>> ls -l || pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test2();		// $> ls -l && pwd +
 	if (list)
 	{
 		ft_putstr("\n\n\n2>>> ls -l && pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test3();		// $> ls -l && pwd || ls +
 	if (list)
 	{
 		ft_putstr("\n\n\n3>>> ls -l && pwd || ls\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test4();		// $> ls -l && pwd && ls +
 	if (list)
 	{
 		ft_putstr("\n\n\n4>>> ls -l && pwd && ls\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test5();		// $> ls -l && pwd && ls || pwd +
 	if (list)
 	{
 		ft_putstr("\n\n\n5>>> ls -l && pwd && ls || pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test6();		// $> ls -l && pwd && ls && pwd
 	if (list)
 	{
 		ft_putstr("\n\n\n6>>> ls -l && pwd && ls && pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 }
@@ -1195,19 +1197,21 @@ void 		combo0(void)		// &&, ||
 void		combo1(void)		// &&, ;, ||
 {
 	t_pars_list		*list;
+	t_exec execlist;
 
+	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 	list = test7();		// $> ls -l && pwd ; ls && pwd +
 	if (list)
 	{
 		ft_putstr("\n\n\n7>>> ls -l && pwd ; ls && pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test8();		// $> ls -l || pwd ; ls ; pwd +
 	if (list)
 	{
 		ft_putstr("\n\n\n8>>> ls -l || pwd ; ls ; pwd\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 }
@@ -1215,26 +1219,28 @@ void		combo1(void)		// &&, ;, ||
 void		combo2(void)		// |
 {
 	t_pars_list		*list;
+	t_exec execlist;
 
+	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 	list = test9();				// $> ls | wc -l +
 	if (list)
 	{
 		ft_putstr("\n\n\n9>>> ls | wc -l\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test10();			// $> ls | wc -l | cat -e +
 	if (list)
 	{
 		ft_putstr("\n\n\n10>>> ls | wc -l | cat -e\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 	list = test11();		// $> ls  | grep "sh" | wc -l | cat -e +
 	if (list)
 	{
 		ft_putstr("\n\n\n11>>> ls | grep \"sh\" | wc -l | cat -e\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 }
@@ -1242,12 +1248,14 @@ void		combo2(void)		// |
 void		combo_checklist(void)
 {
 	t_pars_list	*list;
+	t_exec execlist;
 
+	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 	list = test12();		// $> cat <&4 +
 	{
 		ft_putstr("\n\n\n12>>> cat <&4\n");
 		ft_putstr("nid>> {{Сообщение об ошибке, указывающее, что дескриптор файла недействителен}}\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 
@@ -1255,7 +1263,7 @@ void		combo_checklist(void)
 	{
 		ft_putstr("\n\n\n13>>> ls doesnotexist . 2>&1 >/dev/null\n");
 		ft_putstr("nid>> {{ls: doesnotexist: No such file or directory}}\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 
@@ -1263,7 +1271,7 @@ void		combo_checklist(void)
 	{
 		ft_putstr("\n\n\n14>>> ls doesnotexist . >/dev/null 2>&1\n");
 		ft_putstr("nid>> {{}}\n");
-		check_choice(&list);
+		check_choice(execlist, &list);
 		free_pars_list(list);
 	}
 

@@ -12,18 +12,12 @@
 
 #include "sh42.h"
 
-static t_pars_list	*error_list(void)
-{
-	ft_putstr_fd("42sh: error malloc\n", 2);
-	return (NULL);
-}
-
 static t_pars_list	*create_list(void)
 {
 	t_pars_list *new_list;
 
 	if (!(new_list = (t_pars_list *)malloc(sizeof(t_pars_list))))
-		return (error_list());
+		error_system(432);
 	new_list->name_func[0] = '\0';
 	new_list->name_run_func[0] = '\0';
 	new_list->pars_args[0] = NULL;
@@ -46,8 +40,7 @@ t_pars_list			*pars_new_list(t_pars_list *list)
 {
 	t_pars_list *new_list;
 
-	if (!(new_list = create_list()))
-		return (NULL);
+	new_list = create_list();
 	if (!list)
 		return (new_list);
 	new_list->left = list;

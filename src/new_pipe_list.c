@@ -17,7 +17,7 @@ t_pipe_list		*new_pipe_list(t_pipe_list *pipelist)
 	t_pipe_list	*new_list;
 
 	if(!(new_list = (t_pipe_list *)malloc(sizeof(t_pipe_list))))
-		return (NULL);	////////// можно дописать глобальное завершение
+		error_system(432);
 	new_list->right = NULL;
 	new_list->left = NULL;
 	new_list->pfd[0] = -1;
