@@ -10,12 +10,31 @@
 # include <stdlib.h>
 # include <sys/ioctl.h>
 # include <limits.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include "libft.h"
 
 static int exec_status;									// хранит статус последнего завершения команды
+/////////// просто для определения
+typedef struct			s_start_env
+{
+	char	shlvl[BUFSIZ];
+	char	term[BUFSIZ];
+	char	shell[BUFSIZ];
+	char	pwd[BUFSIZ];
+	char	old_pwd[BUFSIZ];
+	char	path[BUFSIZ];
+	char	home[BUFSIZ];
+	char	user[BUFSIZ];
+}						t_start_env;
+
+// интерфейс
+typedef struct			s_exec
+{
+	t_start_env			exec_envlist;
+}						t_exec;
+
 // структура для труб
 typedef struct			s_pipe_list
 {
@@ -23,6 +42,7 @@ typedef struct			s_pipe_list
 	struct s_pipe_list	*right;
 	struct s_pipe_list	*left;
 }						t_pipe_list;
+
 // структура для перенаправления потоков
 typedef struct			s_red_stream
 {
@@ -63,20 +83,22 @@ typedef struct			s_pars_list
 /*
 ** exec function
 */
-void					check_choice(t_pars_list **list);
-int						check_run(t_pars_list **list);
+void					check_choice(t_exec execlist, t_pars_list **list);
+int						check_run(t_exec execlist, t_pars_list **list);
 int						stream_and_file(t_pars_list *list);
 int						create_file(t_red_stream *stream_list);
 int						redirect_stream(t_red_stream *stream_list);
 int						dup_fd_and_close(int fd, int dup_fd);
-int						run_ampersant(t_pars_list **list);
-void					run_exec(int fd, t_pars_list *list);
-void					run_pipe(t_pipe_list *pipelist, t_pars_list **list);
+int						run_ampersant(struct s_exec execlist, t_pars_list **list);
+void					run_exec(struct s_exec execlist, int fd, t_pars_list *list);
+void					run_pipe(struct s_exec execlist, t_pipe_list **pipelist, t_pars_list **list);
 int						new_or_open_file(char *file_name, int flag_open);
 t_pars_list				*free_pars_list(t_pars_list *list);
 t_pipe_list				*new_pipe_list(t_pipe_list *pipelist);
 void 					free_pipe_list(t_pipe_list *pipelist);
 int						stream_close_fd(t_red_stream *stream_list);
+void					error_system(int status);
+void					close_and_open_std(void);
 /*
 ** parsing function
 */
@@ -91,10 +113,11 @@ int						main(void);
 
 /***
  Используемые функции:
- fork()
+ fork()					- error_exit
+ open()					- error_exit
+ malloc()				- error_exit
  execve()
  acsses()
- open()
  close()
  waitpid()
  pipe()
