@@ -54,10 +54,10 @@ t_pars_list			*test100(void)
 
 
 //
-static t_pars_list			*test16(void)
-{
-
-}
+//static t_pars_list			*test16(void)
+//{
+//
+//}
 //$> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
 static t_pars_list			*test15(void)
 {
@@ -1131,17 +1131,13 @@ t_pars_list			*test(void)
 //	combo_checklist();
 
 
-	list = test15();		// $> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
-	{
-		ft_putstr("\n\n\n15>>> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs\n");
-		ft_putstr("nid>> {{Сообщение, указывающее, что команда \"ls\" выполняется}}\n");
-		check_choice(&list);
-		free_pars_list(list);
-	}
-
-//	list = test100();		// $> ls -l & +
+/**
+*** Для тестирования необходимо добавить команду jobs
+**/
+//	list = test15();		// $> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
 //	{
-//		ft_putstr("\n\n\n100>>> ls -lR &\n");
+//		ft_putstr("\n\n\n15>>> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs\n");
+//		ft_putstr("nid>> {{Сообщение, указывающее, что команда \"ls\" выполняется}}\n");
 //		check_choice(&list);
 //		free_pars_list(list);
 //	}
