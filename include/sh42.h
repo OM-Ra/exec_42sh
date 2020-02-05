@@ -14,8 +14,9 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include "libft.h"
+# define EXEC_ERROR_NUM 432
 
-static int exec_status;									// хранит статус последнего завершения команды
+int exec_status;									// хранит статус последнего завершения команды
 /////////// просто для определения
 typedef struct			s_start_env
 {
@@ -100,6 +101,22 @@ int						stream_close_fd(t_red_stream *stream_list);
 void					error_system(int status);
 void					close_and_open_std(void);
 /*
+** comands
+*/
+int						check_cmd(t_pars_list *list);
+int						run_cmd(t_pars_list *list);
+int						cmd_true(t_pars_list *list);
+int						cmd_false(t_pars_list *list);
+/*
+** comands delete (заглушка)
+*/
+int						minishell_env(int argc, char **argv, char **env);
+int						ftsh_cd(int argc, char **argv, char **env);
+int						ftsh_echo(int argc, char **argv, char **env);
+int						ftsh_pwd(int argc, char *argv[], char *env[]);
+int						ftsh_setenv(const char *name, const char *value, const int replace);
+int						ftsh_unsetenv(const char *name);
+/*
 ** parsing function
 */
 t_pars_list				*pars_new_list(t_pars_list *list);
@@ -114,8 +131,8 @@ int						main(void);
 /***
  Используемые функции:
  fork()					- error_exit
- open()					- error_exit
  malloc()				- error_exit
+ open()
  execve()
  acsses()
  close()

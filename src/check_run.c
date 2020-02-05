@@ -14,8 +14,10 @@
 // код потомка
 static void	cod_child(t_exec execlist, t_pars_list **list)
 {
-	stream_and_file(*list);
-	run_exec(execlist, -1, (*list));
+	if (!stream_and_file(*list))
+		run_exec(execlist, -1, (*list));
+	else
+		exit(1);
 }
 // запуск fork
 static int	run_fork(struct s_exec execlist, t_pars_list **list)
@@ -23,10 +25,11 @@ static int	run_fork(struct s_exec execlist, t_pars_list **list)
 	pid_t pid;
 
 	if ((pid = fork()) < 0)
-		error_system(432);	/// дописать нормальное завершение
+		error_system(EXEC_ERROR_NUM);	/// дописать нормальное завершение
 	if (!pid)
 		cod_child(execlist, list);
 	waitpid(pid, &(*list)->status, WUNTRACED);
+	error_system((*list)->status);
 	exec_status = (*list)->status;
 	return ((*list)->status);
 }
@@ -40,6 +43,7 @@ static int	code_pipe(t_exec execlist, t_pars_list **list)
 	bufpipelist = NULL;
 	pipeList = &bufpipelist;
 	run_pipe(execlist, pipeList, list);
+	error_system((*list)->status);
 	exec_status = (*list)->status;
 	status = exec_status;
 	free_pipe_list(*pipeList);
@@ -52,8 +56,11 @@ int			check_run(t_exec execlist, t_pars_list **list)
 
 	if ((*list)->flag_pipe)
 		status = code_pipe(execlist, list);
-	// else if ()						// дописсать вариант запуска внутренних команд
-	//
+	else if (check_cmd(*list))						// дописсать вариант запуска внутренних команд
+	{
+		stream_and_file(*list);
+		status = run_cmd(*list);
+	}
 	else
 		status = run_fork(execlist, list);
 	return (status);

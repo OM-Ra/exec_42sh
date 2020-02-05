@@ -56,7 +56,9 @@ int			run_ampersant(t_exec execlist, t_pars_list **list)
 	t_pars_list	*buf_list;
 
 	buf_list = *list;
-	if (!(pid = fork()))
+	if ((pid = fork()) < 0)
+		error_system(EXEC_ERROR_NUM);
+	if (!pid)
 	{
 		// setsid();				// чтобы сделать полного демона
 		if (!(pid = fork()))
@@ -70,7 +72,7 @@ int			run_ampersant(t_exec execlist, t_pars_list **list)
 		}
 		exit(0);
 	}
-	else if (pid > 0)
-		waitpid(pid, &(*list)->status, WUNTRACED);
+	waitpid(pid, &(*list)->status, WUNTRACED);
+	error_system((*list)->status);
 	return (0);
 }

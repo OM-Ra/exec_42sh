@@ -21,7 +21,7 @@ int		new_or_open_file(char *file_name, int flag_open)
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) < 0)
 	{
 		ft_putstr_fd("42sh: error create file\n", 2);
-		error_system(432);
+		return (-1);
 	}
 	return (fd);
 }

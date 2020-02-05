@@ -14,9 +14,6 @@
 
 void		error_system(int status)
 {
-	if (status == 432)
-	{
-		exec_status = status;
-		exit(status);
-	}
+	if (status == EXEC_ERROR_NUM)
+		exit((exec_status = EXEC_ERROR_NUM));
 }

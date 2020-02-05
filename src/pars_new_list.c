@@ -17,7 +17,7 @@ static t_pars_list	*create_list(void)
 	t_pars_list *new_list;
 
 	if (!(new_list = (t_pars_list *)malloc(sizeof(t_pars_list))))
-		error_system(432);
+		error_system(EXEC_ERROR_NUM);
 	new_list->name_func[0] = '\0';
 	new_list->name_run_func[0] = '\0';
 	new_list->pars_args[0] = NULL;

@@ -38,7 +38,8 @@ static void		close_pipe_fd(t_pipe_list *pipelist)
 	close_all_fd(buf_pipelist);
 }
 // код потомка
-static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *list)	//////// добавить запуск внутренних команд
+static void		cod_child(t_exec execlist, t_pipe_list **pipelist,
+							t_pars_list *list)
 {
 	t_pipe_list *buf_pipelist;
 
@@ -50,10 +51,14 @@ static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *lis
 	close((*pipelist)->pfd[0]);
 	close_pipe_fd(*pipelist);
 	stream_and_file(list);
-	run_exec(execlist, buf_pipelist->pfd[0], list);
+	if (check_cmd(list))
+		run_cmd(list);
+	else
+		run_exec(execlist, buf_pipelist->pfd[0], list);
 }
 // код родителя
-static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pars_list **list)
+static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist,
+							t_pars_list **list)
 {
 	t_pars_list *buf_list;
 
@@ -65,18 +70,18 @@ static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pa
 	}
 	close_all_fd(*pipelist);
 	waitpid(pid, &buf_list->status, WUNTRACED);
-	if (buf_list->status == 432)
-		error_system(432);
+	error_system(buf_list->status);
 }
 // рекурсивно запускает трубы
-void			run_pipe(t_exec execlist, t_pipe_list **pipelist, t_pars_list **list)
+void			run_pipe(t_exec execlist, t_pipe_list **pipelist,
+							t_pars_list **list)
 {
 	pid_t		pid;
 
 	(*pipelist) = new_pipe_list(*pipelist);
 	pipe((*pipelist)->pfd);
 	if((pid = fork()) < 0)
-		error_system(432);
+		error_system(EXEC_ERROR_NUM);
 	if (!pid)
 		cod_child(execlist, pipelist, (*list));
 	cod_parent(execlist, pid, pipelist, list);

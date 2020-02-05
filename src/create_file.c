@@ -27,7 +27,11 @@ static int	read_file(t_red_stream *stream_list)
 int			create_file(t_red_stream *stream_list)
 {
 	if (stream_list->flag_file > 0)	// если нужно создать файл или открыть его для записи в него
-		stream_list->fd_file = new_or_open_file(stream_list->stream_name, stream_list->flag_file);
+	{
+		if ((stream_list->fd_file = new_or_open_file(stream_list->stream_name,
+				stream_list->flag_file)) < 0)
+			return (-1);
+	}
 	else if (stream_list->flag_file < 0)	// если нужно открыть для чтения
 	{
 		if ((stream_list->fd_file = read_file(stream_list)) < 0)

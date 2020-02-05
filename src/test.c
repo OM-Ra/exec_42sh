@@ -50,14 +50,55 @@ t_pars_list			*test100(void)
 
 	return (list0);
 }
+// $> true ; false
+static t_pars_list			*test16(void)
+{
+	t_pars_list		*list0, *list1;
 
+	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list0->name_func, "true");
+	list0->name_run_func[0] = '\0';
+	list0->pars_args[0] = ft_strdup("true");
+	list0->pars_args[1] = NULL;
+	list0->pars_args[2] = NULL;
+	list0->status = 0;
+	list0->stream_list = NULL;
+	list0->echo_status = 0;
+	list0->str_status[0][0] = '\0';
+	list0->flag_ampersant = 0;
+	list0->nbr_ampersant = 0;
+	list0->flag_pipe = 0;
+	list0->flag_semicolon = 1;
+	list0->flag_and = 0;
+	list0->flag_or = 0;
+	list0->right = NULL;
+	list0->left = NULL;
 
+	if (!(list1 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list1->name_func, "false");
+	list1->name_run_func[0] = '\0';
+	list1->pars_args[0] = ft_strdup("false");
+	list1->pars_args[1] = NULL;
+	list1->pars_args[2] = NULL;
+	list1->status = 0;
+	list1->stream_list = NULL;
+	list1->echo_status = 0;
+	list1->str_status[0][0] = '\0';
+	list1->flag_ampersant = 0;
+	list1->nbr_ampersant = 0;
+	list1->flag_pipe = 0;
+	list1->flag_semicolon = 0;
+	list1->flag_and = 0;
+	list1->flag_or = 0;
+	list1->right = NULL;
+	list1->left = NULL;
 
-//
-//static t_pars_list			*test16(void)
-//{
-//
-//}
+	list0->right = list1;
+	list1->left = list0;
+	return (list0);
+}
 //$> mkfifo fifo ; ls -lR /usr >fifo 2>&1 & ; jobs
 static t_pars_list			*test15(void)
 {
@@ -181,6 +222,7 @@ static t_pars_list			*test14(void)
 	std_list1->stream_name[0] = '\0';
 	std_list1->flag_file = 0;
 	std_list1->next = NULL;
+	std_list1->left = NULL;
 
 	std_list0->next = std_list1;
 	std_list1->left = std_list0;
@@ -223,6 +265,7 @@ static t_pars_list			*test13(void)
 	std_list0->stream_name[0] = '\0';
 	std_list0->flag_file = 0;
 	std_list0->next = NULL;
+	std_list0->left = NULL;
 
 	if(!(std_list1 = (t_red_stream *)malloc(sizeof(t_red_stream))))
 		return (error_list());
@@ -232,6 +275,7 @@ static t_pars_list			*test13(void)
 	ft_strcat(std_list1->stream_name, "/dev/null");
 	std_list1->flag_file = 1;
 	std_list1->next = NULL;
+	std_list1->left = NULL;
 
 	std_list0->next = std_list1;
 	std_list1->left = std_list0;
@@ -272,6 +316,7 @@ static t_pars_list			*test12(void)
 	std_list->fd_file = -1;
 	std_list->stream_name[0] = '\0';
 	std_list->next = NULL;
+	std_list->left = NULL;
 
 	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
 		return (error_list());
@@ -1111,7 +1156,7 @@ static t_pars_list			*test1(void)
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
 	list1->flag_semicolon = 0;
-	list1->flag_and = 1;
+	list1->flag_and = 0;
 	list1->flag_or = 0;
 	list1->right = NULL;
 	list1->left = NULL;
@@ -1124,11 +1169,17 @@ static t_pars_list			*test1(void)
 t_pars_list			*test(void)
 {
 	t_pars_list		*list;
+	t_exec execlist;
 
-//	combo0();
-//	combo1();
+	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
+	combo0();
+	combo1();
 	combo2();
-//	combo_checklist();
+	combo_checklist();
+
+
+
 
 
 /**
@@ -1147,49 +1198,66 @@ t_pars_list			*test(void)
 void 		combo0(void)		// &&, ||
 {
 	t_pars_list		*list;
+	t_pars_list		**buflist;
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
+	list = test16();		// $> true ; false
+	buflist = &list;
+	{
+		ft_putstr("\n\n\n16>>> true ; false\n");
+		ft_putstr("nid>> {{}}\n");
+		check_choice(execlist, buflist);
+		free_pars_list(list);
+	}
+
 	list = test1();		// $> ls -l || pwd +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n1>>> ls -l || pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test2();		// $> ls -l && pwd +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n2>>> ls -l && pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test3();		// $> ls -l && pwd || ls +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n3>>> ls -l && pwd || ls\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test4();		// $> ls -l && pwd && ls +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n4>>> ls -l && pwd && ls\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test5();		// $> ls -l && pwd && ls || pwd +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n5>>> ls -l && pwd && ls || pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test6();		// $> ls -l && pwd && ls && pwd
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n6>>> ls -l && pwd && ls && pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 }
@@ -1197,21 +1265,26 @@ void 		combo0(void)		// &&, ||
 void		combo1(void)		// &&, ;, ||
 {
 	t_pars_list		*list;
+	t_pars_list		**buflist;
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
 	list = test7();		// $> ls -l && pwd ; ls && pwd +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n7>>> ls -l && pwd ; ls && pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
+
 	list = test8();		// $> ls -l || pwd ; ls ; pwd +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n8>>> ls -l || pwd ; ls ; pwd\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 }
@@ -1219,28 +1292,33 @@ void		combo1(void)		// &&, ;, ||
 void		combo2(void)		// |
 {
 	t_pars_list		*list;
+	t_pars_list		**buflist;
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
 	list = test9();				// $> ls | wc -l +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n9>>> ls | wc -l\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test10();			// $> ls | wc -l | cat -e +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n10>>> ls | wc -l | cat -e\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 	list = test11();		// $> ls  | grep "sh" | wc -l | cat -e +
+	buflist = &list;
 	if (list)
 	{
 		ft_putstr("\n\n\n11>>> ls | grep \"sh\" | wc -l | cat -e\n");
-		check_choice(execlist, &list);
+		check_choice(execlist, buflist);
 		free_pars_list(list);
 	}
 }
@@ -1251,12 +1329,12 @@ void		combo_checklist(void)
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
 	list = test12();		// $> cat <&4 +
 	{
 		ft_putstr("\n\n\n12>>> cat <&4\n");
 		ft_putstr("nid>> {{Сообщение об ошибке, указывающее, что дескриптор файла недействителен}}\n");
 		check_choice(execlist, &list);
-		free_pars_list(list);
 	}
 
 	list = test13();		// $> ls doesnotexist . 2>&1 >/dev/null +
@@ -1264,7 +1342,6 @@ void		combo_checklist(void)
 		ft_putstr("\n\n\n13>>> ls doesnotexist . 2>&1 >/dev/null\n");
 		ft_putstr("nid>> {{ls: doesnotexist: No such file or directory}}\n");
 		check_choice(execlist, &list);
-		free_pars_list(list);
 	}
 
 	list = test14();		// $> ls doesnotexist . >/dev/null 2>&1 +
@@ -1272,7 +1349,5 @@ void		combo_checklist(void)
 		ft_putstr("\n\n\n14>>> ls doesnotexist . >/dev/null 2>&1\n");
 		ft_putstr("nid>> {{}}\n");
 		check_choice(execlist, &list);
-		free_pars_list(list);
 	}
-
 }
