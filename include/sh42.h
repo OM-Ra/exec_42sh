@@ -68,7 +68,7 @@ typedef struct			s_pars_list
 	t_red_stream		*stream_list;					// структура для перенаправления потоков
 
 	int					echo_status;					// флаг заполнения статуса
-	char				str_status[BUFSIZ][BUFSIZ];		// строки в которых нужно вставить статус
+	char				**str_status;		// строки в которых нужно вставить статус
 
 	int					flag_ampersant;					// флаг "&"
 	int					nbr_ampersant;					// номер фонового режима
@@ -107,6 +107,7 @@ int						check_cmd(t_pars_list *list);
 int						run_cmd(t_pars_list *list);
 int						cmd_true(t_pars_list *list);
 int						cmd_false(t_pars_list *list);
+void 					cmd_write_status(t_pars_list *list);
 /*
 ** comands delete (заглушка)
 */
