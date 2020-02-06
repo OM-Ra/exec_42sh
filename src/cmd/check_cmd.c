@@ -29,6 +29,6 @@ int			check_cmd(t_pars_list *list)
 		!(ft_strcmp("c", buf)) || !(ft_strcmp("e", buf)) ||
 		!(ft_strcmp("p", buf)) || !(ft_strcmp("s", buf)) ||
 		!(ft_strcmp("u", buf))) // true, false, cd, echo, pwd, setenv, unsetenv, env
-		return (1);
+		return (check_name_cmd(list));
 	return (0);
 }
