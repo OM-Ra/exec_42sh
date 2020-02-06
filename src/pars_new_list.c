@@ -24,7 +24,7 @@ static t_pars_list	*create_list(void)
 	new_list->status = 0;
 	new_list->stream_list = NULL;
 	new_list->echo_status = 0;
-	new_list->str_status[0][0] = '\0';
+	new_list->str_status = NULL;
 	new_list->flag_ampersant = 0;
 	new_list->nbr_ampersant = 0;
 	new_list->flag_pipe = 0;

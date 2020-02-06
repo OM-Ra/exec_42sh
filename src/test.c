@@ -35,10 +35,9 @@ t_pars_list			*test100(void)
 	list0->pars_args[1] = ft_strdup("-l");
 	list0->pars_args[2] = NULL;
 	list0->status = 0;
-
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 1;
 	list0->nbr_ampersant = 1;
 	list0->flag_pipe = 0;
@@ -65,7 +64,7 @@ static t_pars_list			*test16(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -85,7 +84,7 @@ static t_pars_list			*test16(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -138,7 +137,7 @@ static t_pars_list			*test15(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -159,7 +158,7 @@ static t_pars_list			*test15(void)
 	list1->status = 0;
 	list1->stream_list = std_list0;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -179,7 +178,7 @@ static t_pars_list			*test15(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -239,7 +238,7 @@ static t_pars_list			*test14(void)
 	list0->status = 0;
 	list0->stream_list = std_list0;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -291,7 +290,7 @@ static t_pars_list			*test13(void)
 	list0->status = 0;
 	list0->stream_list = std_list0;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -328,7 +327,7 @@ static t_pars_list			*test12(void)
 	list0->status = 0;
 	list0->stream_list = std_list;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -355,7 +354,7 @@ static t_pars_list			*test11(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 1;
@@ -375,7 +374,7 @@ static t_pars_list			*test11(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 1;
@@ -395,7 +394,7 @@ static t_pars_list			*test11(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 1;
@@ -415,7 +414,7 @@ static t_pars_list			*test11(void)
 	list3->status = 0;
 	list3->stream_list = NULL;
 	list3->echo_status = 0;
-	list3->str_status[0][0] = '\0';
+	list3->str_status = NULL;
 	list3->flag_ampersant = 0;
 	list3->nbr_ampersant = 0;
 	list3->flag_pipe = 0;
@@ -448,7 +447,7 @@ static t_pars_list			*test10(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 1;
@@ -468,7 +467,7 @@ static t_pars_list			*test10(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status= NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 1;
@@ -488,7 +487,7 @@ static t_pars_list			*test10(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -519,7 +518,7 @@ static t_pars_list			*test9(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 1;
@@ -539,7 +538,7 @@ static t_pars_list			*test9(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -568,7 +567,7 @@ static t_pars_list			*test8(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -588,7 +587,7 @@ static t_pars_list			*test8(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -608,7 +607,7 @@ static t_pars_list			*test8(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -628,7 +627,7 @@ static t_pars_list			*test8(void)
 	list3->status = 0;
 	list3->stream_list = NULL;
 	list3->echo_status = 0;
-	list3->str_status[0][0] = '\0';
+	list3->str_status = NULL;
 	list3->flag_ampersant = 0;
 	list3->nbr_ampersant = 0;
 	list3->flag_pipe = 0;
@@ -661,7 +660,7 @@ static t_pars_list			*test7(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -681,7 +680,7 @@ static t_pars_list			*test7(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -701,7 +700,7 @@ static t_pars_list			*test7(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -721,7 +720,7 @@ static t_pars_list			*test7(void)
 	list3->status = 0;
 	list3->stream_list = NULL;
 	list3->echo_status = 0;
-	list3->str_status[0][0] = '\0';
+	list3->str_status = NULL;
 	list3->flag_ampersant = 0;
 	list3->nbr_ampersant = 0;
 	list3->flag_pipe = 0;
@@ -754,7 +753,7 @@ static t_pars_list			*test6(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -774,7 +773,7 @@ static t_pars_list			*test6(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -794,7 +793,7 @@ static t_pars_list			*test6(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -814,7 +813,7 @@ static t_pars_list			*test6(void)
 	list3->status = 0;
 	list3->stream_list = NULL;
 	list3->echo_status = 0;
-	list3->str_status[0][0] = '\0';
+	list3->str_status = NULL;
 	list3->flag_ampersant = 0;
 	list3->nbr_ampersant = 0;
 	list3->flag_pipe = 0;
@@ -847,7 +846,7 @@ static t_pars_list			*test5(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -867,7 +866,7 @@ static t_pars_list			*test5(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -887,7 +886,7 @@ static t_pars_list			*test5(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -907,7 +906,7 @@ static t_pars_list			*test5(void)
 	list3->status = 0;
 	list3->stream_list = NULL;
 	list3->echo_status = 0;
-	list3->str_status[0][0] = '\0';
+	list3->str_status = NULL;
 	list3->flag_ampersant = 0;
 	list3->nbr_ampersant = 0;
 	list3->flag_pipe = 0;
@@ -940,7 +939,7 @@ static t_pars_list			*test4(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -960,7 +959,7 @@ static t_pars_list			*test4(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -980,7 +979,7 @@ static t_pars_list			*test4(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -1011,7 +1010,7 @@ static t_pars_list			*test3(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -1031,7 +1030,7 @@ static t_pars_list			*test3(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -1051,7 +1050,7 @@ static t_pars_list			*test3(void)
 	list2->status = 0;
 	list2->stream_list = NULL;
 	list2->echo_status = 0;
-	list2->str_status[0][0] = '\0';
+	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
 	list2->nbr_ampersant = 0;
 	list2->flag_pipe = 0;
@@ -1082,7 +1081,7 @@ static t_pars_list			*test2(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -1102,7 +1101,7 @@ static t_pars_list			*test2(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -1131,7 +1130,7 @@ static t_pars_list			*test1(void)
 	list0->status = 0;
 	list0->stream_list = NULL;
 	list0->echo_status = 0;
-	list0->str_status[0][0] = '\0';
+	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
 	list0->nbr_ampersant = 0;
 	list0->flag_pipe = 0;
@@ -1151,7 +1150,7 @@ static t_pars_list			*test1(void)
 	list1->status = 0;
 	list1->stream_list = NULL;
 	list1->echo_status = 0;
-	list1->str_status[0][0] = '\0';
+	list1->str_status = NULL;
 	list1->flag_ampersant = 0;
 	list1->nbr_ampersant = 0;
 	list1->flag_pipe = 0;
@@ -1173,10 +1172,10 @@ t_pars_list			*test(void)
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 
-	combo0();
-	combo1();
-	combo2();
-	combo_checklist();
+//	combo0();
+//	combo1();
+//	combo2();
+//	combo_checklist();
 
 
 
@@ -1292,34 +1291,34 @@ void		combo1(void)		// &&, ;, ||
 void		combo2(void)		// |
 {
 	t_pars_list		*list;
-	t_pars_list		**buflist;
+	t_pars_list		*buflist;
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 
 	list = test9();				// $> ls | wc -l +
-	buflist = &list;
+//	buflist = list;
 	if (list)
 	{
 		ft_putstr("\n\n\n9>>> ls | wc -l\n");
-		check_choice(execlist, buflist);
-		free_pars_list(list);
+		check_choice(execlist, &list);
+//		free_pars_list(list);
 	}
 	list = test10();			// $> ls | wc -l | cat -e +
-	buflist = &list;
+//	buflist = list;
 	if (list)
 	{
 		ft_putstr("\n\n\n10>>> ls | wc -l | cat -e\n");
-		check_choice(execlist, buflist);
-		free_pars_list(list);
+		check_choice(execlist, &list);
+//		free_pars_list(list);
 	}
 	list = test11();		// $> ls  | grep "sh" | wc -l | cat -e +
-	buflist = &list;
+//	buflist = list;
 	if (list)
 	{
 		ft_putstr("\n\n\n11>>> ls | grep \"sh\" | wc -l | cat -e\n");
-		check_choice(execlist, buflist);
-		free_pars_list(list);
+		check_choice(execlist, &list);
+//		free_pars_list(list);
 	}
 }
 
