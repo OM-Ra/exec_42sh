@@ -49,6 +49,193 @@ t_pars_list			*test100(void)
 
 	return (list0);
 }
+
+// $> ls -l && ls | wc -l | cat -e
+static t_pars_list			*test18(void)
+{
+	t_pars_list		*list00, *list0, *list1, *list2;
+
+	if (!(list00 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list00->name_func, "ls");
+	list00->name_run_func[0] = '\0';
+	list00->pars_args[0] = ft_strdup("ls");
+	list00->pars_args[1] = ft_strdup("-l");
+	list00->pars_args[2] = NULL;
+	list00->status = 0;
+	list00->stream_list = NULL;
+	list00->echo_status = 0;
+	list00->str_status = NULL;
+	list00->flag_ampersant = 0;
+	list00->nbr_ampersant = 0;
+	list00->flag_pipe = 0;
+	list00->flag_semicolon = 0;
+	list00->flag_and = 1;
+	list00->flag_or = 0;
+	list00->right = NULL;
+	list00->left = NULL;
+
+	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list0->name_func, "ls");
+	list0->name_run_func[0] = '\0';
+	list0->pars_args[0] = ft_strdup("ls");
+	list0->pars_args[1] = NULL;
+	list0->pars_args[2] = NULL;
+	list0->status = 0;
+	list0->stream_list = NULL;
+	list0->echo_status = 0;
+	list0->str_status = NULL;
+	list0->flag_ampersant = 0;
+	list0->nbr_ampersant = 0;
+	list0->flag_pipe = 1;
+	list0->flag_semicolon = 0;
+	list0->flag_and = 0;
+	list0->flag_or = 0;
+	list0->right = NULL;
+	list0->left = NULL;
+
+	if (!(list1 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list1->name_func, "wc");
+	list1->name_run_func[0] = '\0';
+	list1->pars_args[0] = ft_strdup("wc");
+	list1->pars_args[1] = ft_strdup("-l");
+	list1->pars_args[2] = NULL;
+	list1->status = 0;
+	list1->stream_list = NULL;
+	list1->echo_status = 0;
+	list1->str_status= NULL;
+	list1->flag_ampersant = 0;
+	list1->nbr_ampersant = 0;
+	list1->flag_pipe = 1;
+	list1->flag_semicolon = 0;
+	list1->flag_and = 0;
+	list1->flag_or = 0;
+	list1->right = NULL;
+	list1->left = NULL;
+
+	if (!(list2 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list2->name_func, "cat");
+	list2->name_run_func[0] = '\0';
+	list2->pars_args[0] = ft_strdup("cat");
+	list2->pars_args[1] = ft_strdup("-e");
+	list2->pars_args[2] = NULL;
+	list2->status = 0;
+	list2->stream_list = NULL;
+	list2->echo_status = 0;
+	list2->str_status = NULL;
+	list2->flag_ampersant = 0;
+	list2->nbr_ampersant = 0;
+	list2->flag_pipe = 0;
+	list2->flag_semicolon = 0;
+	list2->flag_and = 0;
+	list2->flag_or = 0;
+	list2->right = NULL;
+	list2->left = NULL;
+
+	list00->right = list0;
+	list0->left = list00;
+	list0->right = list1;
+	list1->left = list0;
+	list1->right = list2;
+	list2->left = list1;
+	return (list00);
+}
+// $> ls -l || ls | wc -l | cat -e
+static t_pars_list			*test17(void)
+{
+	t_pars_list		*list00, *list0, *list1, *list2;
+
+	if (!(list00 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list00->name_func, "ls");
+	list00->name_run_func[0] = '\0';
+	list00->pars_args[0] = ft_strdup("ls");
+	list00->pars_args[1] = ft_strdup("-l");
+	list00->pars_args[2] = NULL;
+	list00->status = 0;
+	list00->stream_list = NULL;
+	list00->echo_status = 0;
+	list00->str_status = NULL;
+	list00->flag_ampersant = 0;
+	list00->nbr_ampersant = 0;
+	list00->flag_pipe = 0;
+	list00->flag_semicolon = 0;
+	list00->flag_and = 0;
+	list00->flag_or = 1;
+	list00->right = NULL;
+	list00->left = NULL;
+
+	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list0->name_func, "ls");
+	list0->name_run_func[0] = '\0';
+	list0->pars_args[0] = ft_strdup("ls");
+	list0->pars_args[1] = NULL;
+	list0->pars_args[2] = NULL;
+	list0->status = 0;
+	list0->stream_list = NULL;
+	list0->echo_status = 0;
+	list0->str_status = NULL;
+	list0->flag_ampersant = 0;
+	list0->nbr_ampersant = 0;
+	list0->flag_pipe = 1;
+	list0->flag_semicolon = 0;
+	list0->flag_and = 0;
+	list0->flag_or = 0;
+	list0->right = NULL;
+	list0->left = NULL;
+
+	if (!(list1 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list1->name_func, "wc");
+	list1->name_run_func[0] = '\0';
+	list1->pars_args[0] = ft_strdup("wc");
+	list1->pars_args[1] = ft_strdup("-l");
+	list1->pars_args[2] = NULL;
+	list1->status = 0;
+	list1->stream_list = NULL;
+	list1->echo_status = 0;
+	list1->str_status= NULL;
+	list1->flag_ampersant = 0;
+	list1->nbr_ampersant = 0;
+	list1->flag_pipe = 1;
+	list1->flag_semicolon = 0;
+	list1->flag_and = 0;
+	list1->flag_or = 0;
+	list1->right = NULL;
+	list1->left = NULL;
+
+	if (!(list2 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list2->name_func, "cat");
+	list2->name_run_func[0] = '\0';
+	list2->pars_args[0] = ft_strdup("cat");
+	list2->pars_args[1] = ft_strdup("-e");
+	list2->pars_args[2] = NULL;
+	list2->status = 0;
+	list2->stream_list = NULL;
+	list2->echo_status = 0;
+	list2->str_status = NULL;
+	list2->flag_ampersant = 0;
+	list2->nbr_ampersant = 0;
+	list2->flag_pipe = 0;
+	list2->flag_semicolon = 0;
+	list2->flag_and = 0;
+	list2->flag_or = 0;
+	list2->right = NULL;
+	list2->left = NULL;
+
+	list00->right = list0;
+	list0->left = list00;
+	list0->right = list1;
+	list1->left = list0;
+	list1->right = list2;
+	list2->left = list1;
+	return (list00);
+}
 // $> true ; false
 static t_pars_list			*test16(void)
 {
@@ -1179,8 +1366,6 @@ t_pars_list			*test(void)
 
 
 
-
-
 /**
 *** Для тестирования необходимо добавить команду jobs
 **/
@@ -1288,7 +1473,7 @@ void		combo1(void)		// &&, ;, ||
 	}
 }
 
-void		combo2(void)		// |
+void		combo2(void)		// |, &&, ||
 {
 	t_pars_list		*list;
 	t_pars_list		*buflist;
@@ -1319,6 +1504,19 @@ void		combo2(void)		// |
 		ft_putstr("\n\n\n11>>> ls | grep \"sh\" | wc -l | cat -e\n");
 		check_choice(execlist, &list);
 //		free_pars_list(list);
+	}
+	list = test17();		// $> ls -l || ls | wc -l | cat -e +
+	{
+		ft_putstr("\n\n\n17>>> ls -l || ls | wc -l | cat -e\n");
+		ft_putstr("nid>> {{вывод: ls -l}}\n");
+		check_choice(execlist, &list);
+	}
+
+	list = test18();		// $> ls -l && ls | wc -l | cat -e +
+	{
+		ft_putstr("\n\n\n18>>> ls -l && ls | wc -l | cat -e\n");
+		ft_putstr("nid>> {{вывод: ls -l и труб}}\n");
+		check_choice(execlist, &list);
 	}
 }
 
