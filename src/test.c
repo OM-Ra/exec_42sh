@@ -50,6 +50,128 @@ t_pars_list			*test100(void)
 	return (list0);
 }
 
+// $> pwd ; pwd ; pwd ; pwd
+static t_pars_list			*test19(void)
+{
+	t_pars_list		*list0, *list1, *list2, *list3;
+	t_red_stream	*std_list0, *std_list1;
+
+	if(!(std_list0 = (t_red_stream *)malloc(sizeof(t_red_stream))))
+		return (error_list());
+	std_list0->stream_a = 2;
+	std_list0->stream_in = 1;
+	std_list0->fd_file = -1;
+	std_list0->stream_name[0] = '\0';
+	std_list0->flag_file = 0;
+	std_list0->save_fd = dup(STDOUT_FILENO);
+	std_list0->next = NULL;
+	std_list0->left = NULL;
+
+	if(!(std_list1 = (t_red_stream *)malloc(sizeof(t_red_stream))))
+		return (error_list());
+	std_list1->stream_a = 1;
+	std_list1->stream_in = -1;
+	std_list1->fd_file = -1;
+	ft_strcat(std_list1->stream_name, "/dev/null");
+	std_list1->flag_file = 1;
+	std_list1->save_fd = -1;
+	std_list1->next = NULL;
+	std_list1->left = NULL;
+
+	std_list0->next = std_list1;
+	std_list1->left = std_list0;
+
+	if (!(list0 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list0->name_func, "pwd");
+	list0->name_run_func[0] = '\0';
+	list0->pars_args[0] = ft_strdup("pwd");
+	list0->pars_args[1] = NULL;
+	list0->pars_args[2] = NULL;
+	list0->status = 0;
+	list0->stream_list = std_list0;
+//	list0->stream_list = NULL;
+	list0->echo_status = 0;
+	list0->str_status = NULL;
+	list0->flag_ampersant = 0;
+	list0->nbr_ampersant = 0;
+	list0->flag_pipe = 0;
+	list0->flag_semicolon = 1;
+	list0->flag_and = 0;
+	list0->flag_or = 0;
+	list0->right = NULL;
+	list0->left = NULL;
+
+	if (!(list1 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list1->name_func, "pwd");
+	list1->name_run_func[0] = '\0';
+	list1->pars_args[0] = ft_strdup("pwd");
+	list1->pars_args[1] = NULL;
+	list1->pars_args[2] = NULL;
+	list1->status = 0;
+	list1->stream_list = NULL;
+	list1->echo_status = 0;
+	list1->str_status = NULL;
+	list1->flag_ampersant = 0;
+	list1->nbr_ampersant = 0;
+	list1->flag_pipe = 0;
+	list1->flag_semicolon = 1;
+	list1->flag_and = 0;
+	list1->flag_or = 0;
+	list1->right = NULL;
+	list1->left = NULL;
+
+	if (!(list2 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list2->name_func, "pwd");
+	list2->name_run_func[0] = '\0';
+	list2->pars_args[0] = ft_strdup("pwd");
+	list2->pars_args[1] = NULL;
+	list2->pars_args[2] = NULL;
+	list2->status = 0;
+	list2->stream_list = std_list0;
+//	list2->stream_list = NULL;
+	list2->echo_status = 0;
+	list2->str_status = NULL;
+	list2->flag_ampersant = 0;
+	list2->nbr_ampersant = 0;
+	list2->flag_pipe = 0;
+	list2->flag_semicolon = 1;
+	list2->flag_and = 0;
+	list2->flag_or = 0;
+	list2->right = NULL;
+	list2->left = NULL;
+
+	if (!(list3 = (t_pars_list *)malloc(sizeof(t_pars_list))))
+		return (error_list());
+	ft_strcat(list3->name_func, "pwd");
+	list3->name_run_func[0] = '\0';
+	list3->pars_args[0] = ft_strdup("pwd");
+	list3->pars_args[1] = NULL;
+	list3->pars_args[2] = NULL;
+	list3->status = 0;
+	list3->stream_list = NULL;
+	list3->echo_status = 0;
+	list3->str_status = NULL;
+	list3->flag_ampersant = 0;
+	list3->nbr_ampersant = 0;
+	list3->flag_pipe = 0;
+	list3->flag_semicolon = 0;
+	list3->flag_and = 0;
+	list3->flag_or = 0;
+	list3->right = NULL;
+	list3->left = NULL;
+
+	list0->right = list1;
+//	list0->right = NULL;
+	list1->left = list0;
+	list1->right = list2;
+	list2->left = list1;
+	list2->right = list3;
+	list3->left = list2;
+	return (list0);
+}
 // $> ls -l && ls | wc -l | cat -e
 static t_pars_list			*test18(void)
 {
@@ -1363,6 +1485,13 @@ t_pars_list			*test(void)
 //	combo1();
 //	combo2();
 //	combo_checklist();
+
+	list = test19();
+	{
+		ft_putstr("\n\n\n19>>> pwd 2>&1 >/dev/null ; pwd ; pwd 2>&1 >/dev/null ; pwd\n");
+		ft_putstr("nid>> {{два вывода pwd}}\n");
+		check_choice(execlist, &list);
+	}
 
 
 

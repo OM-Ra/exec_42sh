@@ -12,22 +12,40 @@
 
 #include "sh42.h"
 
-static void	open_std(void)
+static void	open_new_std(char *path_name, int fd_std)
 {
-	new_or_open_file("/dev/fd/0", 1);
-	new_or_open_file("/dev/fd/1", 1);
-	new_or_open_file("/dev/fd/2", 1);
+	close(fd_std);
+	open(path_name, O_RDWR);
 }
 
-static void	close_std(void)
+static void	redirect_std(int save_fd)
 {
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
+	char *path_name;
+
+	path_name = ttyname(save_fd);
+	open_new_std(path_name, STDIN_FILENO);
+	open_new_std(path_name, STDOUT_FILENO);
+	open_new_std(path_name, STDERR_FILENO);
 }
 
-void		close_and_open_std(void)
+static void	find_std(t_red_stream *stream_list)
 {
-	close_std();
-	open_std();
+	t_red_stream	*buflist;
+
+	buflist = stream_list;
+	while (buflist)
+	{
+		if ((buflist->save_fd > -1) && (isatty(buflist->save_fd)))
+		{
+			redirect_std(buflist->save_fd);
+			break ;
+		}
+		buflist = buflist->next;
+	}
+}
+
+void		close_and_open_std(t_red_stream *stream_list)
+{
+	if (stream_list)
+		find_std(stream_list);
 }

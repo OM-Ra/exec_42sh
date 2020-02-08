@@ -58,8 +58,9 @@ int			check_run(t_exec execlist, t_pars_list **list)
 		status = code_pipe(execlist, list);
 	else if (check_cmd((*list)->name_func))						// дописсать вариант запуска внутренних команд
 	{
-		stream_and_file(*list);
+		stream_and_file(*list);									// перенаправляет потоки
 		status = run_cmd(*list);
+		close_and_open_std((*list)->stream_list);				// возвращает обратно стандартные потоки и закрывает дескрипторы файлов
 	}
 	else
 		status = run_fork(execlist, list);
