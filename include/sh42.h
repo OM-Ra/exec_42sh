@@ -16,6 +16,7 @@
 # include "libft.h"
 # define EXEC_ERROR_NUM 432
 
+char *path_term;
 int exec_status;									// хранит статус последнего завершения команды
 /////////// просто для определения
 typedef struct			s_start_env
@@ -53,7 +54,8 @@ typedef struct			s_red_stream
 	int					fd_file;						// дескриптор открытого файла (по умолчанию -1, будет заполнено в exec)
 	int					flag_file;						// флаг файла: ">" = "1", ">>" = "2", "<" = "-1" (по умолчанию 0)
 	int					flag_close;						// флаг о закрытии дескриптора (по умолчанию 0)
-	
+	int 				save_std;						// запоминает дублированный дескриптор стандартного вывода (по умолчанию -1)
+
 	struct s_red_stream	*next;
 	struct s_red_stream	*left;
 }						t_red_stream;
@@ -68,7 +70,7 @@ typedef struct			s_pars_list
 	t_red_stream		*stream_list;					// структура для перенаправления потоков
 
 	int					echo_status;					// флаг заполнения статуса
-	char				**str_status;		// строки в которых нужно вставить статус
+	char				**str_status;					// строки в которых нужно вставить статус
 
 	int					flag_ampersant;					// флаг "&"
 	int					nbr_ampersant;					// номер фонового режима
@@ -99,12 +101,12 @@ t_pipe_list				*new_pipe_list(t_pipe_list *pipelist);
 void 					free_pipe_list(t_pipe_list *pipelist);
 int						stream_close_fd(t_red_stream *stream_list);
 void					error_system(int status);
-void					close_and_open_std(void);
+void					stream_save_std(t_red_stream *stream_list);
+void					close_and_open_std(t_red_stream *stream_list);
 /*
 ** parsing
 */
 int 					pars_run_cmd(t_exec execlist, char **arg_cmd, char *str);
-
 void					pars_find_run_name(t_exec execlist, char *name_cmd, char *buf_name_cmd);
 /*
 ** comands
@@ -113,7 +115,7 @@ int						check_cmd(char *name_func);
 int						run_cmd(t_pars_list *list);
 int						cmd_true(t_pars_list *list);
 int						cmd_false(t_pars_list *list);
-void 					cmd_write_status(t_pars_list *list);
+void 					cmd_echo_status(t_pars_list *list);
 /*
 ** comands delete (заглушка)
 */
@@ -134,6 +136,7 @@ t_pars_list				*pars_parsing(char *line);
 */
 t_pars_list				*test(void);
 int						main(void);
+void					test_put_100fd(void);
 
 /***
  Используемые функции:

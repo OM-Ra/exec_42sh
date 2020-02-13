@@ -63,7 +63,7 @@ static t_pars_list			*test19(void)
 	std_list0->fd_file = -1;
 	std_list0->stream_name[0] = '\0';
 	std_list0->flag_file = 0;
-	std_list0->save_fd = dup(STDOUT_FILENO);
+	std_list0->save_std = -1;
 	std_list0->next = NULL;
 	std_list0->left = NULL;
 
@@ -74,7 +74,7 @@ static t_pars_list			*test19(void)
 	std_list1->fd_file = -1;
 	ft_strcat(std_list1->stream_name, "/dev/null");
 	std_list1->flag_file = 1;
-	std_list1->save_fd = -1;
+	std_list1->save_std = -1;
 	std_list1->next = NULL;
 	std_list1->left = NULL;
 
@@ -90,7 +90,6 @@ static t_pars_list			*test19(void)
 	list0->pars_args[2] = NULL;
 	list0->status = 0;
 	list0->stream_list = std_list0;
-//	list0->stream_list = NULL;
 	list0->echo_status = 0;
 	list0->str_status = NULL;
 	list0->flag_ampersant = 0;
@@ -131,7 +130,6 @@ static t_pars_list			*test19(void)
 	list2->pars_args[2] = NULL;
 	list2->status = 0;
 	list2->stream_list = std_list0;
-//	list2->stream_list = NULL;
 	list2->echo_status = 0;
 	list2->str_status = NULL;
 	list2->flag_ampersant = 0;
@@ -164,7 +162,6 @@ static t_pars_list			*test19(void)
 	list3->left = NULL;
 
 	list0->right = list1;
-//	list0->right = NULL;
 	list1->left = list0;
 	list1->right = list2;
 	list2->left = list1;
@@ -1484,14 +1481,7 @@ t_pars_list			*test(void)
 //	combo0();
 //	combo1();
 //	combo2();
-//	combo_checklist();
-
-	list = test19();
-	{
-		ft_putstr("\n\n\n19>>> pwd 2>&1 >/dev/null ; pwd ; pwd 2>&1 >/dev/null ; pwd\n");
-		ft_putstr("nid>> {{два вывода pwd}}\n");
-		check_choice(execlist, &list);
-	}
+	combo_checklist();
 
 
 
@@ -1649,12 +1639,20 @@ void		combo2(void)		// |, &&, ||
 	}
 }
 
-void		combo_checklist(void)
+void		combo_checklist(void)	//
 {
 	t_pars_list	*list;
 	t_exec execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
+
+	list = test19();
+	{
+		ft_putstr("\n\n\n19>>> pwd 2>&1 >/dev/null ; pwd ; pwd 2>&1 >/dev/null ; pwd\n");
+		ft_putstr("nid>> {{два вывода pwd и оставшиеся открытые дескрипторы}}\n");
+		check_choice(execlist, &list);
+		test_put_100fd();
+	}
 
 	list = test12();		// $> cat <&4 +
 	{

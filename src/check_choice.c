@@ -79,6 +79,7 @@ void		check_choice(t_exec execlist, t_pars_list **list)
 	int status;
 
 	status = -1;
+	path_term = ttyname(STDOUT_FILENO);
 	while (*list)
 	{
 		if ((*list)->flag_ampersant)		// отдельно запускается фоновый режим выполнения команд

@@ -11,35 +11,53 @@
 /* ************************************************************************** */
 
 #include "sh42.h"
-
-static void	open_new_std(char *path_name, int fd_std)
+// открывает нужный поток
+static void	open_std(t_red_stream *buflist, int find_std)
 {
-	close(fd_std);
-	open(path_name, O_RDWR);
+	int open_fd;
+
+	close(find_std);
+	open_fd = open(path_term, O_RDWR);
+	dup2(buflist->save_std, open_fd);
+	close(buflist->save_std);
 }
-
-static void	redirect_std(int save_fd)
+// ищет нужный поток
+static void	check_std(t_red_stream *stream_list, int find_std)
 {
-	char *path_name;
-
-	path_name = ttyname(save_fd);
-	open_new_std(path_name, STDIN_FILENO);
-	open_new_std(path_name, STDOUT_FILENO);
-	open_new_std(path_name, STDERR_FILENO);
-}
-
-static void	find_std(t_red_stream *stream_list)
-{
-	t_red_stream	*buflist;
+	t_red_stream *buflist;
 
 	buflist = stream_list;
 	while (buflist)
 	{
-		if ((buflist->save_fd > -1) && (isatty(buflist->save_fd)))
+		if (buflist->stream_a == find_std)
 		{
-			redirect_std(buflist->save_fd);
+			open_std(buflist, find_std);
 			break ;
 		}
+		buflist = buflist->next;
+	}
+}
+
+static void	find_close_std(t_red_stream *stream_list)
+{
+	check_std(stream_list, STDIN_FILENO);
+	check_std(stream_list, STDOUT_FILENO);
+	check_std(stream_list, STDERR_FILENO);
+}
+// закрывает открытые дескрипторы
+static void	close_jobs_fd(t_red_stream *stream_list)
+{
+	t_red_stream *buflist;
+
+	buflist = stream_list;
+	while (buflist)
+	{
+		if (buflist->save_std > -1)
+			close(buflist->save_std);
+		if ((buflist->fd_file > -1) && ((buflist->fd_file != STDIN_FILENO) &&
+			(buflist->fd_file != STDOUT_FILENO) &&
+			(buflist->fd_file != STDERR_FILENO)))
+			close(buflist->fd_file);
 		buflist = buflist->next;
 	}
 }
@@ -47,5 +65,8 @@ static void	find_std(t_red_stream *stream_list)
 void		close_and_open_std(t_red_stream *stream_list)
 {
 	if (stream_list)
-		find_std(stream_list);
+	{
+		find_close_std(stream_list);
+		close_jobs_fd(stream_list);
+	}
 }
