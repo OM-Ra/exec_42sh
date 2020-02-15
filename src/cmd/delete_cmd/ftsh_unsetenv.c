@@ -2,6 +2,6 @@
 
 int						ftsh_unsetenv(const char *name)
 {
-	printf("unsetenv\n");
+	ft_putstr_fd("unsetenv\n", STDOUT_FILENO);
 	return (0);
 }

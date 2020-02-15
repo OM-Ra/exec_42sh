@@ -2,6 +2,6 @@
 
 int						ftsh_pwd(int argc, char *argv[], char *env[])
 {
-	printf("pwd\n");
+	ft_putstr_fd("pwd\n", STDOUT_FILENO);
 	return (0);
 }

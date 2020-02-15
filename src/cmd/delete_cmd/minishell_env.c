@@ -2,6 +2,6 @@
 
 int			minishell_env(int argc, char **argv, char **env)
 {
-	printf("env\n");
+	ft_putstr_fd("env\n", STDOUT_FILENO);
 	return (0);
 }

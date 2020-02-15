@@ -2,6 +2,6 @@
 
 int						ftsh_cd(int argc, char **argv, char **env)
 {
-	printf("cd\n");
+	ft_putstr_fd("cd\n", STDOUT_FILENO);
 	return (0);
 }
