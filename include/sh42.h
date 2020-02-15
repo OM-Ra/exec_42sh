@@ -62,7 +62,7 @@ typedef struct			s_red_stream
 
 typedef struct			s_pars_list
 {
-	char				name_func[BUFSIZ];				// имя запускаемой программы
+	char				*name_func;						// имя запускаемой программы
 	char				name_run_func[BUFSIZ];			// имя запускаемой программы с путём запуска
 	char				*pars_args[BUFSIZ];				// разбитые аргументы строки 
 	int					status;							// статус завершения вызванной программы (заполню)
