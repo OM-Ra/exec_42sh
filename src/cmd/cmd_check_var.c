@@ -12,20 +12,22 @@
 
 #include "sh42.h"
 
-static	void	write_status(char	**str_status)
+static void	write_str_var(char	**str_var)
 {
 	size_t	i;
 
 	i = 0;
-	while (str_status[i])
+	while (str_var && str_var[i])
 	{
-		ft_strcat(str_status[i], ft_itoa(exec_status));
+		ft_strcpy(str_var[i], ft_itoa(exec_status));
 		i++;
 	}
 }
 
-void	cmd_echo_status(t_pars_list *list)
+void		cmd_echo_status(t_pars_list *list)
 {
-	if (list->echo_status)
-		write_status(list->str_status);
+	if (list->f_delimiter & V_STATUS)
+		write_str_var(list->str_status);
+	if (list->f_delimiter & V_LASTPID)
+		write_str_var(list->str_lastpid);
 }
