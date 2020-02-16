@@ -54,7 +54,8 @@ int			check_run(t_exec execlist, t_pars_list **list)
 {
 	int			status;
 
-	if ((*list)->flag_pipe)
+//	if ((*list)->flag_pipe)
+	if ((*list)->f_delimiter & F_PIPE)
 		status = code_pipe(execlist, list);
 	else if (check_cmd((*list)->name_func))						// дописсать вариант запуска внутренних команд
 	{

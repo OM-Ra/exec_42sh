@@ -14,7 +14,18 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include "libft.h"
+
 # define EXEC_ERROR_NUM 432
+/**
+*** константы для флагов разделителей команд
+**/
+# define F_SEMICOLON	1		// флаг ";"
+# define F_AND			2		// флаг "&&"
+# define F_OR			4		// флаг "||"
+# define F_AMPERSANT	8		// флаг "&"
+# define F_PIPE			16		// флаг "|"
+# define V_STATUS		32		// фдаг $?
+# define V_LASTPID		64		// флаг $$
 
 char *path_term;
 int exec_status;									// хранит статус последнего завершения команды
@@ -59,26 +70,46 @@ typedef struct			s_red_stream
 	struct s_red_stream	*next;
 	struct s_red_stream	*left;
 }						t_red_stream;
+///// структура для старых тестов
+//typedef struct			s_pars_list
+//{
+//	char				name_func[BUFSIZ];				// имя запускаемой программы
+//	char				name_run_func[BUFSIZ];			// имя запускаемой программы с путём запуска
+//	char				*pars_args[BUFSIZ];				// разбитые аргументы строки
+//	int					status;							// статус завершения вызванной программы (заполню)
+//
+//	t_red_stream		*stream_list;					// структура для перенаправления потоков
+//
+//	int					echo_status;					// флаг заполнения статуса
+//	char				**str_status;					// строки в которых нужно вставить статус
+//
+//	int					flag_ampersant;					// флаг "&"
+//	int					nbr_ampersant;					// номер фонового режима
+//
+//	int					flag_pipe;						// флаг "|"
+//	int					flag_semicolon;					// флаг ";"
+//	int					flag_and;						// флаг "&&"
+//	int					flag_or;						// флаг "||"
+//
+//	struct s_pars_list	*right;
+//	struct s_pars_list	*left;
+//}						t_pars_list;
 
 typedef struct			s_pars_list
 {
 	char				*name_func;						// имя запускаемой программы
 	char				name_run_func[BUFSIZ];			// имя запускаемой программы с путём запуска
-	char				*pars_args[BUFSIZ];				// разбитые аргументы строки 
+	char				**pars_args;					// разбитые аргументы строки
 	int					status;							// статус завершения вызванной программы (заполню)
 
 	t_red_stream		*stream_list;					// структура для перенаправления потоков
 
-	int					echo_status;					// флаг заполнения статуса
+	int 				f_delimiter;					// флаг разделителей команд
+
+	unsigned short		nbr_ampersant;
+
 	char				**str_status;					// строки в которых нужно вставить статус
-
-	int					flag_ampersant;					// флаг "&"
-	int					nbr_ampersant;					// номер фонового режима
-
-	int					flag_pipe;						// флаг "|"
-	int					flag_semicolon;					// флаг ";"
-	int					flag_and;						// флаг "&&"
-	int					flag_or;						// флаг "||"
+	char 				**str_pid;
 
 	struct s_pars_list	*right;
 	struct s_pars_list	*left;
@@ -103,6 +134,7 @@ int						stream_close_fd(t_red_stream *stream_list);
 void					error_system(int status);
 void					stream_save_std(t_red_stream *stream_list);
 void					close_and_open_std(t_red_stream *stream_list);
+int						write_this_dir(t_pars_list *list);
 /*
 ** parsing
 */

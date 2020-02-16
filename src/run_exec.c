@@ -54,6 +54,8 @@ static void	write_name_run(t_exec execlist, t_pars_list *list)
 	size_t	i;
 
 	i = 0;
+	if (write_this_dir(list))
+		return ;
 	while (execlist.exec_envlist.path[i])
 	{
 		find_name_path(execlist.exec_envlist.path, &i, list);

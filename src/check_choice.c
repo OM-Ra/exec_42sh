@@ -14,21 +14,21 @@
 // функция для промотки труб
 static void	list_not_go_pipe(t_pars_list **list)
 {
-	if ((*list)->flag_pipe)
+	if ((*list)->f_delimiter & F_PIPE)
 		while (*list)
 		{
 			(*list) = (*list)->right;
-			if ((*list) && !(*list)->flag_pipe)
+			if ((*list) && !((*list)->f_delimiter & F_PIPE))
 			{
 				(*list) = (*list)->right;
 				break ;
 			}
 		}
-	else if ((*list)->flag_or)
+	else if ((*list)->f_delimiter & F_OR)
 		while (*list)
 		{
 			(*list) = (*list)->right;
-			if ((*list) && !(*list)->flag_or)
+			if ((*list) && !((*list)->f_delimiter & F_OR))
 			{
 				(*list) = (*list)->right;
 				break ;
@@ -44,9 +44,9 @@ static void	status_ok(t_pars_list **list)
 	{
 		buf_list = (*list);
 		(*list) = (*list)->right;
-		if ((buf_list->flag_semicolon) || (buf_list->flag_and))
+		if ((buf_list->f_delimiter & F_SEMICOLON) || (buf_list->f_delimiter & F_AND))
 			break ;
-		else if (buf_list->flag_or)
+		else if (buf_list->f_delimiter & F_OR)
 			list_not_go_pipe(list);
 	}	
 }
@@ -59,9 +59,9 @@ static void	status_dontok(t_pars_list **list)
 	{
 		buf_list = (*list);
 		(*list) = (*list)->right;
-		if ((buf_list->flag_semicolon) && (buf_list->flag_or))
+		if ((buf_list->f_delimiter & F_SEMICOLON) && (buf_list->f_delimiter & F_OR))
 			break ;
-		if ((buf_list->flag_and) && ((*list)->flag_pipe))
+		if ((buf_list->f_delimiter & F_AND) && ((*list)->f_delimiter & F_PIPE))
 			list_not_go_pipe(list);
 	}
 }
@@ -82,13 +82,12 @@ void		check_choice(t_exec execlist, t_pars_list **list)
 	path_term = ttyname(STDOUT_FILENO);
 	while (*list)
 	{
-		if ((*list)->flag_ampersant)		// отдельно запускается фоновый режим выполнения команд
+		if ((*list)->f_delimiter & F_AMPERSANT)		// отдельно запускается фоновый режим выполнения команд
 			status = run_ampersant(execlist, list);
 		else
 		{
 			status = check_run(execlist, list);		// запуск функции определения режима запускаемых команд (это могут быть трубы, или обычный режим, или внутренние команды)}
-//			close_and_open_std();
 		}
-		next_list(status, list);			// функция выбора следующего запускаемого листа
+		next_list(status, list);					// функция выбора следующего запускаемого листа
 	}
 }

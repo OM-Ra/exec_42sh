@@ -31,6 +31,7 @@ void		free_args(char **args)
 	i = 0;
 	while (args[i])
 		free(args[i++]);
+	free(args);
 }
 
 t_pars_list		*free_pars_list(t_pars_list *list)
@@ -41,7 +42,7 @@ t_pars_list		*free_pars_list(t_pars_list *list)
 	{
 		buf_list = list;
 		list = list->right;
-		if (buf_list->pars_args[0])
+		if (buf_list->pars_args)
 			free_args(buf_list->pars_args);
 		if (buf_list->stream_list)
 			free_stream_list(buf_list->stream_list);

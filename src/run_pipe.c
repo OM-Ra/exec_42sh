@@ -43,7 +43,8 @@ static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *lis
 	t_pipe_list *buf_pipelist;
 
 	buf_pipelist = ((*pipelist)->left) ? (*pipelist)->left : (*pipelist);
-	if (list->flag_pipe)
+//	if (list->flag_pipe)
+	if (list->f_delimiter & F_PIPE)
 		dup_fd_and_close((*pipelist)->pfd[1], STDOUT_FILENO);
 	else
 		close((*pipelist)->pfd[1]);
@@ -66,7 +67,8 @@ static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pa
 	t_pars_list *buf_list;
 
 	buf_list = (*list);
-	if ((buf_list->right) && (buf_list->flag_pipe))
+//	if ((buf_list->right) && (buf_list->flag_pipe))
+	if ((buf_list->right) && (buf_list->f_delimiter & F_PIPE))
 	{
 		(*list) = (*list)->right;
 		run_pipe(execlist, pipelist, list);
