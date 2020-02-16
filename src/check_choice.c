@@ -85,9 +85,7 @@ void		check_choice(t_exec_lst execlist, t_pars_list **list)
 		if ((*list)->f_delimiter & F_AMPERSANT)		// отдельно запускается фоновый режим выполнения команд
 			status = run_ampersant(execlist, list);
 		else
-		{
 			status = check_run(execlist, list);		// запуск функции определения режима запускаемых команд (это могут быть трубы, или обычный режим, или внутренние команды)}
-		}
 		next_list(status, list);					// функция выбора следующего запускаемого листа
 	}
 }
