@@ -147,6 +147,9 @@ int						write_this_dir(t_pars_list *list);
 */
 int 					pars_run_cmd(t_exec_lst execlist, char **arg_cmd, char *str);
 void					pars_find_run_name(t_exec_lst execlist, char *name_cmd, char *buf_name_cmd);
+
+char					*pars_write_args(t_pars_list *list, char *mainline, char *end);
+char 					*pars_fill_args(t_pars_list *list, char *pointstr,  char *end);
 /*
 ** comands
 */
