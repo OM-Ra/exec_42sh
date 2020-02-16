@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_echo_status.c                                  :+:      :+:    :+:   */
+/*   cmd_check_var.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,7 +24,7 @@ static void	write_str_var(char	**str_var)
 	}
 }
 
-void		cmd_echo_status(t_pars_list *list)
+void		cmd_check_var(t_pars_list *list)
 {
 	if (list->f_delimiter & V_STATUS)
 		write_str_var(list->str_status);

@@ -10,7 +10,7 @@ static int	find_and_run_cmd(t_pars_list *list)
 		list->status = ftsh_cd(0, NULL, NULL);	//////// замена
 	else if (!ft_strcmp("echo", list->name_func))
 	{
-		cmd_echo_status(list);
+		cmd_check_var(list);
 		list->status = ftsh_echo(0, NULL, NULL);	//////// замена
 	}
 	else if (!ft_strcmp("pwd", list->name_func))

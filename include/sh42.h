@@ -147,7 +147,7 @@ int						check_cmd(char *name_func);
 int						run_cmd(t_pars_list *list);
 int						cmd_true(t_pars_list *list);
 int						cmd_false(t_pars_list *list);
-void 					cmd_echo_status(t_pars_list *list);
+void 					cmd_check_var(t_pars_list *list);
 /*
 ** comands delete (заглушка)
 */
