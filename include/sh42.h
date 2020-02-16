@@ -109,7 +109,7 @@ typedef struct			s_pars_list
 	unsigned short		nbr_ampersant;
 
 	char				**str_status;					// строки в которых нужно вставить статус
-	char 				**str_pid;
+	char 				**str_lastpid;
 
 	struct s_pars_list	*right;
 	struct s_pars_list	*left;
