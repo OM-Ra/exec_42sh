@@ -27,8 +27,13 @@
 # define V_STATUS		32		// фдаг $?
 # define V_LASTPID		64		// флаг $$
 
-char *path_term;
-int exec_status;									// хранит статус последнего завершения команды
+typedef struct			s_term_var
+{
+	char 				*path_term;							// храниет адрес терминала
+	int 				exec_status;						// хранит статус последней запущеной команды
+	pid_t				pid_last;							// хранит pid последней запущеной команды
+}						t_term_vat;
+
 /////////// просто для определения
 typedef struct			s_start_env
 {
@@ -43,10 +48,10 @@ typedef struct			s_start_env
 }						t_start_env;
 
 // интерфейс
-typedef struct			s_exec
+typedef struct			s_exec_lst
 {
 	t_start_env			exec_envlist;
-}						t_exec;
+}						t_exec_lst;
 
 // структура для труб
 typedef struct			s_pipe_list
@@ -114,18 +119,20 @@ typedef struct			s_pars_list
 	struct s_pars_list	*right;
 	struct s_pars_list	*left;
 }						t_pars_list;
+
+static t_term_vat		term_lst;
 /*
 ** exec function
 */
-void					check_choice(t_exec execlist, t_pars_list **list);
-int						check_run(t_exec execlist, t_pars_list **list);
+void					check_choice(t_exec_lst execlist, t_pars_list **list);
+int						check_run(t_exec_lst execlist, t_pars_list **list);
 int						stream_and_file(t_pars_list *list);
 int						create_file(t_red_stream *stream_list);
 int						redirect_stream(t_red_stream *stream_list);
 int						dup_fd_and_close(int fd, int dup_fd);
-int						run_ampersant(t_exec execlist, t_pars_list **list);
-void					run_exec(t_exec execlist, int fd, t_pars_list *list);
-void					run_pipe(t_exec execlist, t_pipe_list **pipelist, t_pars_list **list);
+int						run_ampersant(t_exec_lst execlist, t_pars_list **list);
+void					run_exec(t_exec_lst execlist, int fd, t_pars_list *list);
+void					run_pipe(t_exec_lst execlist, t_pipe_list **pipelist, t_pars_list **list);
 int						new_or_open_file(char *file_name, int flag_open);
 t_pars_list				*free_pars_list(t_pars_list *list);
 t_pipe_list				*new_pipe_list(t_pipe_list *pipelist);
@@ -138,8 +145,8 @@ int						write_this_dir(t_pars_list *list);
 /*
 ** parsing
 */
-int 					pars_run_cmd(t_exec execlist, char **arg_cmd, char *str);
-void					pars_find_run_name(t_exec execlist, char *name_cmd, char *buf_name_cmd);
+int 					pars_run_cmd(t_exec_lst execlist, char **arg_cmd, char *str);
+void					pars_find_run_name(t_exec_lst execlist, char *name_cmd, char *buf_name_cmd);
 /*
 ** comands
 */
