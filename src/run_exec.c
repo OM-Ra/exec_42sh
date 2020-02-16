@@ -77,6 +77,7 @@ void		run_exec(t_exec_lst execlist, int fd, t_pars_list *list)
 	if (fd > -1)							// если необходимо изменить поток чтения
 		dup_fd_and_close(fd, STDIN_FILENO);
 	write_name_run(execlist, list);
+	cmd_check_var(list);
 	if (execve(list->name_run_func, list->pars_args, environ))
 		error_run_exec(list);
 }
