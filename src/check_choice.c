@@ -74,12 +74,12 @@ static void	next_list(int status, t_pars_list **list)
 		status_dontok(list);
 }
 // проверка И / ИЛИ / & и выбор следующего запускаемого листа
-void		check_choice(t_exec execlist, t_pars_list **list)
+void		check_choice(t_exec_lst execlist, t_pars_list **list)
 {
 	int status;
 
 	status = -1;
-	path_term = ttyname(STDOUT_FILENO);
+	term_lst.path_term = ttyname(STDOUT_FILENO);
 	while (*list)
 	{
 		if ((*list)->f_delimiter & F_AMPERSANT)		// отдельно запускается фоновый режим выполнения команд

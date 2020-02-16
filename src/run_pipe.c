@@ -38,7 +38,7 @@ static void		close_pipe_fd(t_pipe_list *pipelist)
 	close_all_fd(buf_pipelist);
 }
 // код потомка
-static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *list)
+static void		cod_child(t_exec_lst execlist, t_pipe_list **pipelist, t_pars_list *list)
 {
 	t_pipe_list *buf_pipelist;
 
@@ -62,7 +62,7 @@ static void		cod_child(t_exec execlist, t_pipe_list **pipelist, t_pars_list *lis
 		run_exec(execlist, buf_pipelist->pfd[0], list);
 }
 // код родителя
-static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pars_list **list)
+static void		cod_parent(t_exec_lst execlist, pid_t pid, t_pipe_list **pipelist, t_pars_list **list)
 {
 	t_pars_list *buf_list;
 
@@ -78,7 +78,7 @@ static void		cod_parent(t_exec execlist, pid_t pid, t_pipe_list **pipelist, t_pa
 	error_system(buf_list->status);
 }
 // рекурсивно запускает трубы
-void			run_pipe(t_exec execlist, t_pipe_list **pipelist, t_pars_list **list)
+void			run_pipe(t_exec_lst execlist, t_pipe_list **pipelist, t_pars_list **list)
 {
 	pid_t		pid;
 

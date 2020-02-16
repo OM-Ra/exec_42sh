@@ -35,7 +35,7 @@ static void	find_name_path(char *name_path, size_t *i, char *name_cmd, char *buf
 	ft_strcat(buf_name_cmd, name_cmd);
 }
 // запись имени функции с путём запуска
-void		pars_find_run_name(t_exec execlist, char *name_cmd, char *buf_name_cmd)
+void		pars_find_run_name(t_exec_lst execlist, char *name_cmd, char *buf_name_cmd)
 {
 	size_t	i;
 

@@ -12,7 +12,7 @@
 
 #include "sh42.h"
 // код потомка
-static void	cod_child(t_exec execlist, t_pars_list **list)
+static void	cod_child(t_exec_lst execlist, t_pars_list **list)
 {
 	if (!stream_and_file(*list))
 		run_exec(execlist, -1, (*list));
@@ -20,7 +20,7 @@ static void	cod_child(t_exec execlist, t_pars_list **list)
 		exit(1);
 }
 // запуск fork
-static int	run_fork(struct s_exec execlist, t_pars_list **list)
+static int	run_fork(t_exec_lst execlist, t_pars_list **list)
 {
 	pid_t pid;
 
@@ -30,11 +30,11 @@ static int	run_fork(struct s_exec execlist, t_pars_list **list)
 		cod_child(execlist, list);
 	waitpid(pid, &(*list)->status, WUNTRACED);
 	error_system((*list)->status);
-	exec_status = (*list)->status;
+	term_lst.exec_status = (*list)->status;
 	return ((*list)->status);
 }
 // код запуска труб
-static int	code_pipe(t_exec execlist, t_pars_list **list)
+static int	code_pipe(t_exec_lst execlist, t_pars_list **list)
 {
 	int			status;
 	t_pipe_list	**pipeList;
@@ -44,17 +44,16 @@ static int	code_pipe(t_exec execlist, t_pars_list **list)
 	pipeList = &bufpipelist;
 	run_pipe(execlist, pipeList, list);
 	error_system((*list)->status);
-	exec_status = (*list)->status;
-	status = exec_status;
+	term_lst.exec_status = (*list)->status;
+	status = term_lst.exec_status;
 	free_pipe_list(*pipeList);
 	return (status);
 }
 // определяет характер выполнения кода
-int			check_run(t_exec execlist, t_pars_list **list)
+int			check_run(t_exec_lst execlist, t_pars_list **list)
 {
 	int			status;
 
-//	if ((*list)->flag_pipe)
 	if ((*list)->f_delimiter & F_PIPE)
 		status = code_pipe(execlist, list);
 	else if (check_cmd((*list)->name_func))						// дописсать вариант запуска внутренних команд

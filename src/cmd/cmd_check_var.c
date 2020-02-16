@@ -12,14 +12,26 @@
 
 #include "sh42.h"
 
-static void	write_str_var(char	**str_var)
+static void	write_str_lastpid(char	**str_var)
 {
 	size_t	i;
 
 	i = 0;
 	while (str_var && str_var[i])
 	{
-		ft_strcpy(str_var[i], ft_itoa(exec_status));
+		ft_strcpy(str_var[i], ft_itoa(term_lst.pid_last));
+		i++;
+	}
+}
+
+static void	write_str_status(char	**str_var)
+{
+	size_t	i;
+
+	i = 0;
+	while (str_var && str_var[i])
+	{
+		ft_strcpy(str_var[i], ft_itoa(term_lst.exec_status));
 		i++;
 	}
 }
@@ -27,7 +39,7 @@ static void	write_str_var(char	**str_var)
 void		cmd_check_var(t_pars_list *list)
 {
 	if (list->f_delimiter & V_STATUS)
-		write_str_var(list->str_status);
+		write_str_status(list->str_status);
 	if (list->f_delimiter & V_LASTPID)
-		write_str_var(list->str_lastpid);
+		write_str_lastpid(list->str_lastpid);
 }

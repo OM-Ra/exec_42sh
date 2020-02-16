@@ -17,7 +17,7 @@ static int 	cod_parent(int pid, char *str, int *pfd)
 	return (status);
 }
 
-static void		cod_chuild(t_exec execlist, char **arg_cmd, int *pfd)
+static void		cod_chuild(t_exec_lst execlist, char **arg_cmd, int *pfd)
 {
 	extern char	**environ;	///// заменить на массив из execlist
 	t_pars_list	list;
@@ -37,7 +37,7 @@ static void		cod_chuild(t_exec execlist, char **arg_cmd, int *pfd)
 	execve(buf_name_cmd, arg_cmd, environ);
 }
 
-int 			pars_run_cmd(t_exec execlist, char **arg_cmd, char *str)
+int 			pars_run_cmd(t_exec_lst execlist, char **arg_cmd, char *str)
 {
 	pid_t	pid;
 	int 	pfd[2];

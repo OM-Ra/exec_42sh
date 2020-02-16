@@ -15,5 +15,5 @@
 void		error_system(int status)
 {
 	if (status == EXEC_ERROR_NUM)
-		exit((exec_status = EXEC_ERROR_NUM));
+		exit((term_lst.exec_status = EXEC_ERROR_NUM));
 }

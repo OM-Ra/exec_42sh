@@ -17,7 +17,7 @@ static void	open_std(t_red_stream *buflist, int find_std)
 	int open_fd;
 
 	close(find_std);
-	open_fd = open(path_term, O_RDWR);
+	open_fd = open(term_lst.path_term, O_RDWR);
 	dup2(buflist->save_std, open_fd);
 	close(buflist->save_std);
 }

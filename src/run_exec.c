@@ -17,7 +17,7 @@ static void	error_run_exec(t_pars_list *list)
 	ft_putstr_fd("42sh: command not found: ", 2);
 	ft_putstr_fd(list->name_func, 2);
 	ft_putchar_fd('\n', 2);
-	exec_status = 127;
+	term_lst.exec_status = 127;
 	exit(127);
 }
 // вывод об ошибке если доступ к запуску команды не разрешён
@@ -26,7 +26,7 @@ static void error_access_exec(t_pars_list *list)
 	ft_putstr_fd("42sh: command not access: ", 2);
 	ft_putstr_fd(list->name_func, 2);
 	ft_putchar_fd('\n', 2);
-	exec_status = 126;
+	term_lst.exec_status = 126;
 	exit(126);
 }
 // записывает адрес и имя функции для запуска
@@ -49,7 +49,7 @@ static void	find_name_path(char *name_path, size_t *i, t_pars_list *list)
 	ft_strcat(list->name_run_func, list->name_func);
 }
 // запись имени функции с путём запуска
-static void	write_name_run(t_exec execlist, t_pars_list *list)
+static void	write_name_run(t_exec_lst execlist, t_pars_list *list)
 {
 	size_t	i;
 
@@ -70,7 +70,7 @@ static void	write_name_run(t_exec execlist, t_pars_list *list)
 	error_run_exec(list);
 }
 // запуск нового приложения
-void		run_exec(t_exec execlist, int fd, t_pars_list *list)
+void		run_exec(t_exec_lst execlist, int fd, t_pars_list *list)
 {
 	extern char	**environ;
 

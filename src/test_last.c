@@ -1610,7 +1610,7 @@ t_pars_list			*test(void)
 {
 	t_pars_list		*list;
 	t_pars_list		*buflist;
-	t_exec 			execlist;
+	t_exec_lst 			execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 /***********старые тесты**************/
@@ -1640,7 +1640,7 @@ t_pars_list			*test(void)
 //{
 //	t_pars_list		*list;
 //	t_pars_list		**buflist;
-//	t_exec execlist;
+//	t_exec_lst execlist;
 //
 //	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 //
@@ -1707,7 +1707,7 @@ t_pars_list			*test(void)
 //{
 //	t_pars_list		*list;
 //	t_pars_list		**buflist;
-//	t_exec execlist;
+//	t_exec_lst execlist;
 //
 //	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 //
@@ -1734,7 +1734,7 @@ t_pars_list			*test(void)
 //{
 //	t_pars_list		*list;
 //	t_pars_list		*buflist;
-//	t_exec execlist;
+//	t_exec_lst execlist;
 //
 //	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 //
@@ -1780,7 +1780,7 @@ t_pars_list			*test(void)
 //void		combo_checklist(void)	//
 //{
 //	t_pars_list	*list;
-//	t_exec execlist;
+//	t_exec_lst execlist;
 //
 //	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 //
@@ -1817,7 +1817,7 @@ void	comdo3()
 {
 	t_pars_list		*list;
 	t_pars_list		*buflist;
-	t_exec 			execlist;
+	t_exec_lst 			execlist;
 
 	ft_strcat(execlist.exec_envlist.path, "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki");
 
