@@ -26,13 +26,14 @@
 # define F_PIPE			16		// флаг "|"
 # define V_STATUS		32		// фдаг $?
 # define V_LASTPID		64		// флаг $$
+# define V_WRITE_VAR	128		// флаг того, что нужно заполнять переменные
 
 typedef struct			s_term_var
 {
 	char 				*path_term;							// храниет адрес терминала
 	int 				exec_status;						// хранит статус последней запущеной команды
 	pid_t				pid_last;							// хранит pid последней запущеной команды
-}						t_term_vat;
+}						t_term_var;
 
 /////////// просто для определения
 typedef struct			s_start_env
@@ -106,6 +107,7 @@ typedef struct			s_pars_list
 	char				name_run_func[BUFSIZ];			// имя запускаемой программы с путём запуска
 	char				**pars_args;					// разбитые аргументы строки
 	int					status;							// статус завершения вызванной программы (заполню)
+	pid_t				pid;
 
 	t_red_stream		*stream_list;					// структура для перенаправления потоков
 
@@ -120,7 +122,7 @@ typedef struct			s_pars_list
 	struct s_pars_list	*left;
 }						t_pars_list;
 
-static t_term_vat		term_lst;
+static t_term_var		term_lst;
 /*
 ** exec function
 */
