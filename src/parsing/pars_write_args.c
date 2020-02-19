@@ -12,14 +12,6 @@
 
 #include "sh42.h"
 
-static int	mlc_args(t_pars_list *list)
-{
-	if (!(list->pars_args == (char **)malloc(sizeof(char *) * (функция для определения количества аргументов + 1))))
-		return (1);	//////// завершение работы 42sh
-	list->pars_args[0] = NULL;
-	return (0);
-}
-
 static char	*skip_pas(char *pointstr, char *end)
 {
 	while ((pointstr < end) && ((*pointstr <= 32) || (*pointstr == -1)))

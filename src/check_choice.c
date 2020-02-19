@@ -82,6 +82,8 @@ void		check_choice(t_exec_lst execlist, t_pars_list **list)
 	term_lst.path_term = ttyname(STDOUT_FILENO);
 	while (*list)
 	{
+//		if ((*list)->f_delimiter & V_WRITE_VAR)		// в случае если нужно создать или перезаписать переменные
+//
 		if ((*list)->f_delimiter & F_AMPERSANT)		// отдельно запускается фоновый режим выполнения команд
 			status = run_ampersant(execlist, list);
 		else

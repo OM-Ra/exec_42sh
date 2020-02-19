@@ -29,6 +29,7 @@ static int	run_fork(t_exec_lst execlist, t_pars_list **list)
 	if (!pid)
 		cod_child(execlist, list);
 	waitpid(pid, &(*list)->status, WUNTRACED);
+	term_lst.pid_last = pid;
 	error_system((*list)->status);
 	term_lst.exec_status = (*list)->status;
 	return ((*list)->status);
@@ -36,7 +37,6 @@ static int	run_fork(t_exec_lst execlist, t_pars_list **list)
 // код запуска труб
 static int	code_pipe(t_exec_lst execlist, t_pars_list **list)
 {
-	int			status;
 	t_pipe_list	**pipeList;
 	t_pipe_list	*bufpipelist;
 
@@ -45,9 +45,9 @@ static int	code_pipe(t_exec_lst execlist, t_pars_list **list)
 	run_pipe(execlist, pipeList, list);
 	error_system((*list)->status);
 	term_lst.exec_status = (*list)->status;
-	status = term_lst.exec_status;
+	term_lst.pid_last = (*list)->pid;
 	free_pipe_list(*pipeList);
-	return (status);
+	return (term_lst.exec_status);
 }
 // определяет характер выполнения кода
 int			check_run(t_exec_lst execlist, t_pars_list **list)

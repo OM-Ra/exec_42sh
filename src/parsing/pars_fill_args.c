@@ -12,27 +12,6 @@
 
 #include "sh42.h"
 
-static int	find_variable(char *pointstr, char *end)
-{
-		if (*pointstr == $ && (*pointstr - 1) != '\\')
-			return (1);
-	return (0);
-}
-
-static int	find_quotes(char *pointstr, char *end)
-{
-	if (pointstr < end && (*pointstr == '"' || *pointstr == '\'' ||
-		*pointstr == '"'))
-		return (1);
-	return (0);
-}
-
-static void	find_endstr(char *bufstr, size_t &i)
-{
-	while (bufstr[*i])
-		(*i)++;
-}
-
 static void find_last_args(t_pars_list *list, char *bufstr)
 {
 	size_t	i;
@@ -51,22 +30,7 @@ char 		*pars_fill_args(t_pars_list *list, char *pointstr,  char *end)
 
 	i = 0;
 	while ((pointstr < end) && (*pointstr != -1))
-	{
-		if (find_quotes(pointstr, end))
-		{	// "
-			bufstr[i] = '\0';
-			ft_strcat(&bufstr[i], );
-			find_endstr(bufstr, &i);
-		}
-		else if (find_variable(pointstr, end))
-		{	// $
-			bufstr[i] = '\0';
-			ft_strcat(&bufstr[i], );
-			find_endstr(bufstr, &i);
-		}
-		else
 			bufstr[i++] = *(pointstr++);
-	}
 	bufstr[i] = '\0';
 	find_last_args(list, bufstr);
 	return (pointstr);

@@ -74,6 +74,7 @@ static void		cod_parent(t_exec_lst execlist, pid_t pid, t_pipe_list **pipelist, 
 	close_all_fd(*pipelist);
 	waitpid(pid, &buf_list->status, WUNTRACED);
 	error_system(buf_list->status);
+	buf_list->pid = pid;
 }
 // рекурсивно запускает трубы
 void			run_pipe(t_exec_lst execlist, t_pipe_list **pipelist, t_pars_list **list)
