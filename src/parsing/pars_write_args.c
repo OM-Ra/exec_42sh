@@ -12,9 +12,12 @@
 
 #include "sh42.h"
 
-static int	find_quotes(char *pointstr, char *end)
+static int	mlc_args(t_pars_list *list)
 {
-	while (pointstr < end &&)
+	if (!(list->pars_args == (char **)malloc(sizeof(char *) * (функция для определения количества аргументов + 1))))
+		return (1);	//////// завершение работы 42sh
+	list->pars_args[0] = NULL;
+	return (0);
 }
 
 static char	*skip_pas(char *pointstr, char *end)
@@ -35,8 +38,6 @@ char		*pars_write_args(t_pars_list *list, char *mainline, char *end)
 	{
 		if ((*pointstr <= 32) || (*pointstr == -1))
 			pointstr = skip_pas(pointstr, end);
-//		else if ()
-//
 		else if (*pointstr && (*pointstr != -1))
 			pointstr = pars_fill_args(list, pointstr, end);
 	}
