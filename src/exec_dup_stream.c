@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_choice.c                                     :+:      :+:    :+:   */
+/*   exec_dup_stream.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/10 11:41:27 by mdelphia          #+#    #+#             */
-/*   Updated: 2020/04/09 16:13:09 by mdelphia         ###   ########.fr       */
+/*   Created: 2020/03/10 18:39:59 by mdelphia          #+#    #+#             */
+/*   Updated: 2020/03/10 18:40:04 by mdelphia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void		check_choice(t_exec_lst *execlist, t_pars_list *list)
+int	exec_dup_stream(int newfd, int oldfd)
 {
-	int status;
-
-	while (list)
-	{
-		if (list->f_delimiter & F_AMPERSANT)
-			status = run_ampersant(execlist, &list);
-		else
-			status = check_run(execlist, &list);
-		exec_next_list(status, &list);
-	}
+	if (dup2(oldfd, newfd) == -1)
+		return (1);
+	return (0);
 }

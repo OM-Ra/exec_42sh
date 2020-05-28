@@ -6,11 +6,11 @@
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 14:00:13 by mdelphia          #+#    #+#             */
-/*   Updated: 2020/02/02 14:00:17 by mdelphia         ###   ########.fr       */
+/*   Updated: 2020/02/29 21:00:07 by mdelphia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh42.h"
+#include "exec.h"
 
 void		free_pipe_list(t_pipe_list *list)
 {
@@ -19,7 +19,7 @@ void		free_pipe_list(t_pipe_list *list)
 	while (list)
 	{
 		buf_list = list;
-		list = list->left;
+		list = list->prev;
 		free(buf_list);
 	}
 }

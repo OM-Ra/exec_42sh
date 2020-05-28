@@ -6,64 +6,79 @@
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 11:41:46 by mdelphia          #+#    #+#             */
-/*   Updated: 2019/12/10 11:41:48 by mdelphia         ###   ########.fr       */
+/*   Updated: 2020/04/09 16:12:54 by mdelphia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh42.h"
-// код потомка
-static void	cod_child(t_exec_lst execlist, t_pars_list **list)
+#include "exec.h"
+
+void		ignore_signals(int sig)
 {
-	if (!stream_and_file(*list))
-		run_exec(execlist, -1, (*list));
+	(void)sig;
+}
+
+static void	cod_child(t_exec_lst *execlist, t_pars_list **list)
+{
+	if (!stream_and_file(execlist, *list))
+		run_exec(-1, (*list), execlist);
 	else
 		exit(1);
 }
-// запуск fork
-static int	run_fork(t_exec_lst execlist, t_pars_list **list)
-{
-	pid_t pid;
 
+static int	run_fork(t_exec_lst *execlist, t_pars_list **list)
+{
+	pid_t	pid;
+
+	sh21_signals(ignore_signals);
 	if ((pid = fork()) < 0)
-		error_system(EXEC_ERROR_NUM);	/// дописать нормальное завершение
+		error_system(execlist, EXEC_ERROR_NUM);
 	if (!pid)
+	{
+		write_name_run(execlist, *list);
+		sh21_signals(ignore_signals);
 		cod_child(execlist, list);
+	}
 	waitpid(pid, &(*list)->status, WUNTRACED);
-	term_lst.pid_last = pid;
-	error_system((*list)->status);
-	term_lst.exec_status = (*list)->status;
+	error_system(execlist, (*list)->status);
+	status_child(execlist, (*list)->status, pid, (*list)->name_run_func);
+	execlist->sh_term_lst.pid_last = pid;
+	execlist->sh_term_lst.exec_status = (*list)->status;
 	return ((*list)->status);
 }
-// код запуска труб
-static int	code_pipe(t_exec_lst execlist, t_pars_list **list)
+
+static int	code_pipe(t_exec_lst *execlist, t_pars_list **list)
 {
-	t_pipe_list	**pipeList;
+	t_pipe_list	**pipelist;
 	t_pipe_list	*bufpipelist;
 
 	bufpipelist = NULL;
-	pipeList = &bufpipelist;
-	run_pipe(execlist, pipeList, list);
-	error_system((*list)->status);
-	term_lst.exec_status = (*list)->status;
-	term_lst.pid_last = (*list)->pid;
-	free_pipe_list(*pipeList);
-	return (term_lst.exec_status);
+	pipelist = &bufpipelist;
+	run_pipe(execlist, pipelist, list);
+	error_system(execlist, (*list)->status);
+	execlist->sh_term_lst.exec_status = (*list)->status;
+	execlist->sh_term_lst.pid_last = (*list)->pid;
+	free_pipe_list(*pipelist);
+	return (execlist->sh_term_lst.exec_status);
 }
-// определяет характер выполнения кода
-int			check_run(t_exec_lst execlist, t_pars_list **list)
+
+int			check_run(t_exec_lst *execlist, t_pars_list **list)
 {
 	int			status;
 
-	if ((*list)->f_delimiter & F_PIPE)
-		status = code_pipe(execlist, list);
-	else if (check_cmd((*list)->name_func))						// дописсать вариант запуска внутренних команд
+	status = 0;
+	if ((*list)->name_func)
 	{
-		stream_save_std((*list)->stream_list);
-		stream_and_file(*list);									// перенаправляет потоки
-		status = run_cmd(*list);
-		close_and_open_std((*list)->stream_list);				// возвращает обратно стандартные потоки и закрывает дескрипторы файлов
+		if ((*list)->f_delimiter & F_PIPE)
+			status = code_pipe(execlist, list);
+		else if (check_cmd((*list)->name_func))
+		{
+			stream_save_std((*list)->stream_list);
+			stream_and_file(execlist, *list);
+			status = run_cmd(execlist, *list);
+			close_and_open_std(execlist, (*list)->stream_list);
+		}
+		else
+			status = run_fork(execlist, list);
 	}
-	else
-		status = run_fork(execlist, list);
 	return (status);
 }

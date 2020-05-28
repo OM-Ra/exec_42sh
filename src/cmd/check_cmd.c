@@ -1,11 +1,23 @@
-#include "sh42.h"
-// заполянет буфер символом
-static void write_character(char *buf, char sim)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/05 15:52:25 by mdelphia          #+#    #+#             */
+/*   Updated: 2020/04/07 14:28:38 by mdelphia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "exec.h"
+
+static void	write_character(char *buf, char sim)
 {
 	buf[0] = sim;
 	buf[1] = '\0';
 }
-// проверяет наличие внутренних команд в листе
+
 static int	check_name_cmd(char *name_func)
 {
 	if (!(ft_strcmp("true", name_func)) ||
@@ -15,11 +27,12 @@ static int	check_name_cmd(char *name_func)
 		!(ft_strcmp("pwd", name_func)) ||
 		!(ft_strcmp("setenv", name_func)) ||
 		!(ft_strcmp("unsetenv", name_func)) ||
-		!(ft_strcmp("env", name_func)))
+		!(ft_strcmp("env", name_func)) ||
+		!(ft_strcmp("exit", name_func)))
 		return (1);
 	return (0);
 }
-// проверяет наличие первого символа внутренних команд в листе
+
 int			check_cmd(char *name_func)
 {
 	char buf[2];
@@ -28,7 +41,7 @@ int			check_cmd(char *name_func)
 	if (!(ft_strcmp("t", buf)) || !(ft_strcmp("f", buf)) ||
 		!(ft_strcmp("c", buf)) || !(ft_strcmp("e", buf)) ||
 		!(ft_strcmp("p", buf)) || !(ft_strcmp("s", buf)) ||
-		!(ft_strcmp("u", buf))) // true, false, cd, echo, pwd, setenv, unsetenv, env
+		!(ft_strcmp("u", buf)))
 		return (check_name_cmd(name_func));
 	return (0);
 }

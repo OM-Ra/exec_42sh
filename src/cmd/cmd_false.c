@@ -1,7 +1,18 @@
-#include "sh42.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_false.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/05 15:52:54 by mdelphia          #+#    #+#             */
+/*   Updated: 2020/03/05 15:52:57 by mdelphia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		cmd_false(t_pars_list *list)
+#include "exec.h"
+
+int		cmd_false(void)
 {
-	list->status = 1;
-	return (term_lst.exec_status = 1);
+	return (1);
 }

@@ -6,12 +6,12 @@
 /*   By: mdelphia <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 11:42:17 by mdelphia          #+#    #+#             */
-/*   Updated: 2019/12/10 11:42:19 by mdelphia         ###   ########.fr       */
+/*   Updated: 2020/02/29 20:38:23 by mdelphia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh42.h"
-// для дублирования дескрипторов
+#include "exec.h"
+
 int		dup_fd_and_close(int fd, int dup_fd)
 {
 	if (fd != dup_fd)
